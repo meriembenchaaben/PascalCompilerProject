@@ -27,8 +27,8 @@ COMMENT_LINE       "//".*[\n]
 
 {bl}                                                                                 /* pas d'actions */
 "\n" 			     ++yylineno;
-{Comment_Block}		 return COMMENT;
-[0-9]+         {  return NUMBER; }
+{Comment_Block}		 ++yylineno;
+[0-9]+         {  return NUM; }
 [0-9]+\.[0-9]* { return EXP; }
 \"[^"\n]*["\n] {   return STR; }
 "program"   		{return _R_PROGRAM;}
@@ -74,9 +74,9 @@ COMMENT_LINE       "//".*[\n]
 "read"   		   {return _BUILTIN_READ;}
 "write"    		   {return _BUILTIN_WRITE;}
 {typeE}					                                                             return type ;
-":="                                                                            return OPPAFFECT;
-{COMMENT_LINE}         								     							 return COMMENT;
-{id}                return Identifier ;
+":="                                                                            return ASSIGN;
+{COMMENT_LINE}         								     							 ++yylineno;
+{id}                return ID ;
 
 
 
