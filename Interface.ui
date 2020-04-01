@@ -16,10 +16,10 @@
   <widget class="QTextEdit" name="ResultsTextEdit">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>230</y>
+     <x>160</x>
+     <y>430</y>
      <width>581</width>
-     <height>321</height>
+     <height>221</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -29,8 +29,8 @@
   <widget class="QLabel" name="ResultsLabel">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>180</y>
+     <x>10</x>
+     <y>380</y>
      <width>181</width>
      <height>41</height>
     </rect>
@@ -45,7 +45,7 @@
   <widget class="QPushButton" name="ParcourirButton">
    <property name="geometry">
     <rect>
-     <x>800</x>
+     <x>790</x>
      <y>30</y>
      <width>211</width>
      <height>51</height>
@@ -61,8 +61,8 @@
   <widget class="QPushButton" name="compilationButton">
    <property name="geometry">
     <rect>
-     <x>800</x>
-     <y>230</y>
+     <x>820</x>
+     <y>610</y>
      <width>211</width>
      <height>51</height>
     </rect>
@@ -77,10 +77,10 @@
   <widget class="QLineEdit" name="source">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>160</x>
      <y>30</y>
      <width>581</width>
-     <height>91</height>
+     <height>51</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -88,6 +88,53 @@
    </property>
    <property name="text">
     <string>Source</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="Code">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>130</y>
+     <width>581</width>
+     <height>221</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 75 16pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="FileRadioButton">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>120</y>
+     <width>211</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>File</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="NoFileRadioButton">
+   <property name="geometry">
+    <rect>
+     <x>850</x>
+     <y>170</y>
+     <width>211</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>No File</string>
    </property>
   </widget>
  </widget>
