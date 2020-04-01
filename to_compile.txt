@@ -1,0 +1,7 @@
+program tp1Source1;
+var a: integer;
+begin
+  x := 3;
+  y := 3*2 ;
+  write(x,y,45+2) /*mechant programme n'est pas ? */
+end  .

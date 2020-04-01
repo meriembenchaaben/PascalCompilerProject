@@ -13,7 +13,7 @@ open_croch "["
 close_croch "]"
 ouvrante  (\()
 fermante  (\))
-typeE      ({standardType})|(("aray"){open_croch}{literal_entier}(".."){literal_entier}{close_croch})
+
 lettre    [a-zA-Z]
 id        {lettre}({lettre}|{chiffre})*
 nb        ("-")?{chiffre}+("."{chiffre}+)?(("E"|"e")"-"?{chiffre}+)?
@@ -31,24 +31,24 @@ COMMENT_LINE       "//".*[\n]
 [0-9]+         {  return NUM; }
 [0-9]+\.[0-9]* { return EXP; }
 \"[^"\n]*["\n] {   return STR; }
-"program"   		{return _R_PROGRAM;}
-"begin"     		{return _R_BEGIN;}
-"end"       		{return _R_END;}
-"var"       		{return _R_VAR;}
-"array"    		    {return _R_ARRAY;}
-".."        		{return _R_DOTS;}
-"of"        		{return _R_OF;}
-"integer"  			{return _R_INTEGER;}
-"double"    		{return _R_DOUBLE;}
-"string"    		{return _R_STRING;}
-"function"  		{return _R_FUNCTION;}
-"procedure"		    {return _R_PROCEDURE;}
-"if"        		{return _R_IF;}
-"then"      		{return _R_THEN;}
-"else"     		    {return _R_ELSE;}
-"while"     		{return _R_WHILE;}
-"do"        		{return _R_DO;}
-"not"       		{return _R_NOT;}
+"program"   		{return PROGRAM;}
+"begin"     		{return MC_BEGIN;}
+"end"       		{return END;}
+"var"       		{return VAR;}
+"array"    		    {return ARRAY;}
+".."        		{return DOTS;}
+"of"        		{return OF;}
+"integer"  			{return INTEGER;}
+"double"    		{return DOUBLE;}
+"string"    		{return STRING;}
+"function"  		{return FUNCTION;}
+"procedure"		    {return PROCEDURE;}
+"if"        		{return IF;}
+"then"      		{return THEN;}
+"else"     		    {return ELSE;}
+"while"     		{return WHILE;}
+"do"        		{return DO;}
+"not"       		{return NOT;}
 {nb}				return Number ;
 ","         {return SEPARATOR_LIST;}
 ";"         {return SEPARATOR_LINE;}
@@ -73,7 +73,6 @@ COMMENT_LINE       "//".*[\n]
 ">=" 				return cmp_geq;
 "read"   		   {return _BUILTIN_READ;}
 "write"    		   {return _BUILTIN_WRITE;}
-{typeE}					                                                             return type ;
 ":="                                                                            return ASSIGN;
 {COMMENT_LINE}         								     							 ++yylineno;
 {id}                return ID ;

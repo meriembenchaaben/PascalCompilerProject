@@ -18,9 +18,9 @@ extern FILE *yyin;
 %token  STR
 %token  NUM
 %token  ID
-%token  _R_INTEGER _R_DOUBLE _R_STRING
-%token _R_PROGRAM _R_BEGIN _R_END _R_VAR _R_ARRAY _R_OF _R_DOTS _R_FUNCTION _R_PROCEDURE _R_IF _R_THEN _R_ELSE _R_WHILE _R_DO _R_NOT SEPARATOR_LINE SEPARATOR_LIST SEPARATOR_DEAD TYPIFIER BRACKET_O BRACKET_C SBRACKET_O SBRACKET_C _BUILTIN_READ _BUILTIN_WRITE ASSIGN
-%token error COMMENT Number o_plus o_minus o_lor o_mul o_div o_mod o_land cmp_l cmp_leq cmp_eq cmp_neq cmp_g cmp_geq type OPPAFFECT
+%token  INTEGER DOUBLE STRING
+%token PROGRAM MC_BEGIN END VAR ARRAY OF DOTS FUNCTION PROCEDURE IF THEN ELSE WHILE DO NOT SEPARATOR_LINE SEPARATOR_LIST SEPARATOR_DEAD TYPIFIER BRACKET_O BRACKET_C SBRACKET_O SBRACKET_C _BUILTIN_READ _BUILTIN_WRITE ASSIGN
+%token error COMMENT Number o_plus o_minus o_lor o_mul o_div o_mod o_land cmp_l cmp_leq cmp_eq cmp_neq cmp_g cmp_geq  OPPAFFECT
 
  
 
@@ -29,27 +29,49 @@ extern FILE *yyin;
 %%
 
 file:
-	/*empty*/
-		{fprintf(stderr, "#   warning: empty file\n");
-		return(0);}
-	|
-	program {fprintf(stderr, "#   program accepted by interpreter\n");};
+	program {fprintf(stderr, "#   program accepted by interpreter\n"); return (0) } ;
 program:
-	_R_PROGRAM ID SEPARATOR_LINE declarationz_list compound_statement SEPARATOR_DEAD ;
+	PROGRAM ID SEPARATOR_LINE declarations_list declaration_methods_list compound_statement SEPARATOR_DEAD ;
 identifier_list:
 	ID
 	|
 	ID SEPARATOR_LIST identifier_list ;
-declarationz_list:
+declarations_list:
 	/* empty */
 	|
-	declarationz_list _R_VAR declaration ;
-declaration:
-	identifier_list TYPIFIER _R_INTEGER SEPARATOR_LINE
+	declarations_list VAR declaration SEPARATOR_LINE ;
+parameters_list:
+	declaration
 	|
-	identifier_list TYPIFIER _R_DOUBLE SEPARATOR_LINE;
+	declaration SEPARATOR_LINE parameters_list ;
+declaration:
+	identifier_list TYPIFIER type
+	|
+	identifier_list TYPIFIER ARRAY SBRACKET_O NUM DOTS NUM SBRACKET_C OF type ;
+declaration_methods_list :
+	/* empty */
+	|
+	declaration_methods_list declaration_method
+declaration_method :
+	method_header declarations_list compound_statement SEPARATOR_LINE ;
+method_header :
+	PROCEDURE ID BRACKET_O arguments BRACKET_C SEPARATOR_LINE ;
+method_call :
+	ID BRACKET_O call_parameters BRACKET_C ;
+call_parameters :
+	/* empty */
+	|
+	expr_list ;
+arguments :
+	/* empty */
+	|
+	parameters_list
+type :
+	INTEGER
+	|
+	DOUBLE ;
 compound_statement:
-	_R_BEGIN optional_statement _R_END ;
+	MC_BEGIN optional_statement END ;
 optional_statement:
 	/*empty*/
 	|
@@ -63,9 +85,13 @@ statement:
 	|
 	compound_statement
 	|
-	_R_WHILE expr _R_DO statement
+	method_call
 	|
-	_R_IF expr _R_THEN statement _R_ELSE statement
+	IF expr THEN statement
+	|
+	IF expr THEN statement ELSE statement
+	|
+	WHILE expr DO statement
 	|
 	_BUILTIN_READ BRACKET_O identifier_list BRACKET_C
 	|
@@ -75,7 +101,7 @@ variable:
 expr_list:
 	expr
 	|
-	expr_list SEPARATOR_LIST expr ;
+	expr SEPARATOR_LIST expr_list ;
 expr:
 	simple_expr
 	|
@@ -130,9 +156,9 @@ int main(int argc,char** argv)
 	char str[60];
 	yyin = fopen(argv[1],"r");
 
-	yyparse() ;
+	return yyparse() ;
 
-	return 0 ;
+
 }
 
 int yywrap()
