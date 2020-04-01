@@ -119,6 +119,9 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
    <property name="text">
     <string>File</string>
    </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QRadioButton" name="NoFileRadioButton">
    <property name="geometry">
@@ -135,6 +138,22 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
     <string>No File</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="ResultsLabel_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>110</y>
+     <width>181</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Code :</string>
    </property>
   </widget>
  </widget>
