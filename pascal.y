@@ -6,7 +6,7 @@
 
 int yyerror(char const *msg);
 int yylex(void);
-extern int yylineno;
+extern int line_num;
 
 
 extern FILE *yyin;
@@ -148,7 +148,7 @@ factor:
 
 #include <stdlib.h>
 int yyerror(char const *msg) {
-	fprintf(stderr, "%s %d\n", msg,yylineno);
+	fprintf(stderr, "Sorry for you , %s %d\n", msg,line_num);
 	return 0;
 }
 int main(int argc,char** argv)

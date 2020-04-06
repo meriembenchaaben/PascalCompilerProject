@@ -1,8 +1,14 @@
-%{option yylineno
+%x comment foo
+%{
 #include "pascal.tab.h"
 int yylex();
 void yyerror(const char *s);
+int line_num = 1;
+int comment_caller;
+
+
 %}
+
 
 delim     [ \t]
 bl        {delim}+
@@ -13,7 +19,6 @@ open_croch "["
 close_croch "]"
 ouvrante  (\()
 fermante  (\))
-
 lettre    [a-zA-Z]
 id        {lettre}({lettre}|{chiffre})*
 nb        ("-")?{chiffre}+("."{chiffre}+)?(("E"|"e")"-"?{chiffre}+)?
@@ -24,32 +29,41 @@ COMMENT_LINE       "//".*[\n]
 
 
 %%
-
+"/*"		{
+    comment_caller = INITIAL;
+    BEGIN(comment);}
+<foo>"/*"	{
+			comment_caller = foo;
+			BEGIN(comment);
+			}
+	   <comment>[^*\n]*	   /* eat anything that's not a '*' */
+	   <comment>"*"+[^*/\n]*   /* eat up '*'s not followed by '/'s */
+	   <comment>\n		   ++line_num;
+	   <comment>"*"+"/"	   BEGIN(comment_caller);
 {bl}                                                                                 /* pas d'actions */
-"\n" 			     ++yylineno;
-{Comment_Block}		 ++yylineno;
+"\n" 			     {line_num++;}
 [0-9]+         {  return NUM; }
 [0-9]+\.[0-9]* { return EXP; }
 \"[^"\n]*["\n] {   return STR; }
 "program"   		{return PROGRAM;}
-"begin"     		{return MC_BEGIN;}
+"begin"    		{return MC_BEGIN;}
 "end"       		{return END;}
-"var"       		{return VAR;}
+"var"     		{return VAR;}
 "array"    		    {return ARRAY;}
 ".."        		{return DOTS;}
-"of"        		{return OF;}
-"integer"  			{return INTEGER;}
+"of"       		{return OF;}
+"integer"   			{return INTEGER;}
 "double"    		{return DOUBLE;}
 "string"    		{return STRING;}
 "function"  		{return FUNCTION;}
 "procedure"		    {return PROCEDURE;}
-"if"        		{return IF;}
+"if"       		{return IF;}
 "then"      		{return THEN;}
 "else"     		    {return ELSE;}
 "while"     		{return WHILE;}
 "do"        		{return DO;}
 "not"       		{return NOT;}
-{nb}				return Number ;
+{nb}		return Number ;
 ","         {return SEPARATOR_LIST;}
 ";"         {return SEPARATOR_LINE;}
 "."         {return SEPARATOR_DEAD;}
@@ -74,7 +88,7 @@ COMMENT_LINE       "//".*[\n]
 "read"   		   {return _BUILTIN_READ;}
 "write"    		   {return _BUILTIN_WRITE;}
 ":="                                                                            return ASSIGN;
-{COMMENT_LINE}         								     							 ++yylineno;
+{COMMENT_LINE}         								     							 ++line_num ;
 {id}                return ID ;
 
 

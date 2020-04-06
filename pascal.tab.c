@@ -75,7 +75,7 @@
 
 int yyerror(char const *msg);
 int yylex(void);
-extern int yylineno;
+extern int line_num;
 
 
 extern FILE *yyin;
@@ -502,7 +502,7 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "EndOfLine", "error", "$undefined", "EXP", "STR", "NUM", "ID", "INTEGER",
+  "$end", "error", "$undefined", "EXP", "STR", "NUM", "ID", "INTEGER",
   "DOUBLE", "STRING", "PROGRAM", "MC_BEGIN", "END", "VAR", "ARRAY", "OF",
   "DOTS", "FUNCTION", "PROCEDURE", "IF", "THEN", "ELSE", "WHILE", "DO",
   "NOT", "SEPARATOR_LINE", "SEPARATOR_LIST", "SEPARATOR_DEAD", "TYPIFIER",
@@ -1706,7 +1706,7 @@ yyreturn:
 
 #include <stdlib.h>
 int yyerror(char const *msg) {
-	fprintf(stderr, "%s %d\n", msg,yylineno);
+	fprintf(stderr, "Sorry for you , %s %d\n", msg,line_num);
 	return 0;
 }
 int main(int argc,char** argv)

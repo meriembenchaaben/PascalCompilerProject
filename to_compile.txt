@@ -1,7 +1,9 @@
-program tp1Source1;
-var a: integer;
-begin
-  x := 3;
-  y := 3*2 ;
-  write(x,y,45+2) /*mechant programme n'est pas ? */
-end  .
+/* commentaire pour tester qu'il calcule bien
+le nombre de lignes
+foo */
+program pascal ;
+begin 
+write("donner un entier ") ;
+read(x,);
+print("si on multiplie cet entier par 2 on trouve", x*2 ) 
+end . 
