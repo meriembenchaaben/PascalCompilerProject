@@ -2,17 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9b30b828-00d4-47a1-b962-e14f23121dae" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/SyntaxicAnalysis/Interface.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SyntaxicAnalysis/PascalCompilerProject.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SyntaxicAnalysis/interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SyntaxicAnalysis/lex.yy.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SyntaxicAnalysis/pascal.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SyntaxicAnalysis/pascal.lex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SyntaxicAnalysis/pascal.tab.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SyntaxicAnalysis/pascal.tab.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SyntaxicAnalysis/pascal.y" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SyntaxicAnalysis/pascal2.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SyntaxicAnalysis/tewt.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SyntaxicAnalysis/to_compile.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/semantic.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Interface.ui" beforeDir="false" afterPath="$PROJECT_DIR$/Interface.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LexicalAnalysis/lex.yy (2).c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pascal.exe" beforeDir="false" afterPath="$PROJECT_DIR$/pascal.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pascal.lex" beforeDir="false" afterPath="$PROJECT_DIR$/pascal.lex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pascal.tab.c" beforeDir="false" afterPath="$PROJECT_DIR$/pascal.tab.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pascal.tab.h" beforeDir="false" afterPath="$PROJECT_DIR$/pascal.tab.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pascal.y" beforeDir="false" afterPath="$PROJECT_DIR$/pascal.y" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tewt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tewt.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/to_compile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/to_compile.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,20 +29,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pascal.lex">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="704">
-              <caret line="32" column="11" selection-start-line="32" selection-start-column="11" selection-end-line="32" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/interface.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="35" column="23" lean-forward="true" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
-              <folding>
-                <element signature="e#0#20#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="398">
+              <caret line="58" column="10" selection-start-line="58" selection-start-column="1" selection-end-line="58" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -46,26 +38,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pascal.y">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="62" column="9" lean-forward="true" selection-start-line="62" selection-start-column="9" selection-end-line="62" selection-end-column="9" />
+            <state relative-caret-position="880">
+              <caret line="40" column="29" lean-forward="true" selection-start-line="40" selection-start-column="29" selection-end-line="40" selection-end-column="29" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lex.yy.c">
+        <entry file="file://$PROJECT_DIR$/semantic.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3430">
-              <caret line="13" column="6" lean-forward="true" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pascal.tab.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="504" column="12" selection-start-line="504" selection-start-column="12" selection-end-line="504" selection-end-column="12" />
+            <state relative-caret-position="730">
+              <caret line="77" column="8" lean-forward="true" selection-start-line="77" selection-start-column="8" selection-end-line="77" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -86,6 +69,8 @@
       <find>type</find>
       <find>error</find>
       <find>$end</find>
+      <find>FUNCTION</find>
+      <find>header</find>
     </findStrings>
     <replaceStrings>
       <replace>_R_BEGIN</replace>
@@ -99,14 +84,15 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/pascal.tab.h" />
-        <option value="$PROJECT_DIR$/pascal.lex" />
         <option value="$PROJECT_DIR$/interface.py" />
-        <option value="$PROJECT_DIR$/pascal.y" />
         <option value="$PROJECT_DIR$/pascal.tab.c" />
+        <option value="$PROJECT_DIR$/pascal.lex" />
+        <option value="$PROJECT_DIR$/semantic.c" />
+        <option value="$PROJECT_DIR$/pascal.y" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="538" />
     <option name="width" value="1389" />
     <option name="height" value="1047" />
@@ -133,8 +119,13 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/SyntaxicAnalysis" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\Projects\ProjectCompilation\PascalCompilerProject\SyntaxicAnalysis" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -189,23 +180,25 @@
       <updated>1585761118685</updated>
       <workItem from="1585761119774" duration="114000" />
       <workItem from="1585761234835" duration="1792000" />
-      <workItem from="1585825067291" duration="11451000" />
+      <workItem from="1585825067291" duration="13034000" />
+      <workItem from="1585850641993" duration="2430000" />
+      <workItem from="1586185557769" duration="2474000" />
+      <workItem from="1587119673430" duration="17989000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13357000" />
+    <option name="totallyTimeSpent" value="37833000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="538" y="0" width="1389" height="1047" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2633559" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19402985" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33260393" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.4182015" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -215,7 +208,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Regex Tester" order="10" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="12" weight="0.26218852" />
+      <window_info anchor="bottom" id="Terminal" order="12" weight="0.56229687" />
       <window_info anchor="bottom" id="Python Console" order="13" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -228,7 +221,7 @@
     <option name="version" value="1" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PascalCompilerProject$interface.coverage" NAME="interface Coverage Results" MODIFIED="1585838422190" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PascalCompilerProject$interface.coverage" NAME="interface Coverage Results" MODIFIED="1586186954511" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/to_compile.txt">
@@ -246,11 +239,7 @@
         <state relative-caret-position="-990" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LexicalAnalysis/lex.yy (2).c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4048" />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/LexicalAnalysis/lex.yy (2).c" />
     <entry file="file://$PROJECT_DIR$/LexicalAnalysis/mon_programme.prof">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -268,10 +257,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lex.yy.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pascal.tab.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11088">
+          <caret line="504" column="7" selection-start-line="504" selection-start-column="7" selection-end-line="504" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SyntaxicAnalysis/interface.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/interface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="35" column="23" lean-forward="true" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
+        <state relative-caret-position="545">
+          <caret line="32" column="15" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
@@ -280,29 +286,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pascal.lex">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="704">
-          <caret line="32" column="11" selection-start-line="32" selection-start-column="11" selection-end-line="32" selection-end-column="11" />
+        <state relative-caret-position="398">
+          <caret line="58" column="10" selection-start-line="58" selection-start-column="1" selection-end-line="58" selection-end-column="10" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pascal.tab.c">
+    <entry file="file://$PROJECT_DIR$/semantic.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="504" column="12" selection-start-line="504" selection-start-column="12" selection-end-line="504" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lex.yy.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3430">
-          <caret line="13" column="6" lean-forward="true" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+        <state relative-caret-position="730">
+          <caret line="77" column="8" lean-forward="true" selection-start-line="77" selection-start-column="8" selection-end-line="77" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pascal.y">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="62" column="9" lean-forward="true" selection-start-line="62" selection-start-column="9" selection-end-line="62" selection-end-column="9" />
+        <state relative-caret-position="880">
+          <caret line="40" column="29" lean-forward="true" selection-start-line="40" selection-start-column="29" selection-end-line="40" selection-end-column="29" />
         </state>
       </provider>
     </entry>

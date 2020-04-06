@@ -3,7 +3,7 @@
 #define YYDEBUG 1
 #include "pascal.tab.h"
 #include <stdio.h>
-#inclide "semantic.c"
+
 int yyerror(char const *msg);
 int yylex(void);
 extern int line_num;
@@ -31,22 +31,13 @@ extern FILE *yyin;
 file:
 	program {fprintf(stderr, "#   program accepted by interpreter\n"); return (0) } ;
 program:
-	PROGRAM ID SEPARATOR_LINE declarations_list declaration_methods_list compound_statement SEPARATOR_DEAD
-	 {
-	 //create main node
-	 node * main = createNode($2,$1,null) ;
-	 //push to main sublist declaration list netsarfou fil nodes
-	 parrent = main ;
-	 current = null ;
-	 char * currentType ;
-	 strcpy(currentType,"") ;
-	 };
+	PROGRAM ID SEPARATOR_LINE declarations_list declaration_methods_list compound_statement SEPARATOR_DEAD ;
 identifier_list:
 	ID
 	|
 	ID SEPARATOR_LIST identifier_list ;
 declarations_list:
-	/*empty*/
+	/* empty */
 	|
 	declarations_list VAR declaration SEPARATOR_LINE ;
 parameters_list:
@@ -54,14 +45,9 @@ parameters_list:
 	|
 	declaration SEPARATOR_LINE parameters_list ;
 declaration:
-	identifier_list TYPIFIER type { strcpy(currentType,$3) ; }
+	identifier_list TYPIFIER type
 	|
-
-	identifier_list TYPIFIER ARRAY SBRACKET_O NUM DOTS NUM SBRACKET_C OF type
-	{// todo array bech ne5dmouga ye men 3ach
-	}
-	;
-
+	identifier_list TYPIFIER ARRAY SBRACKET_O NUM DOTS NUM SBRACKET_C OF type ;
 declaration_methods_list :
 	/* empty */
 	|
@@ -69,9 +55,7 @@ declaration_methods_list :
 declaration_method :
 	method_header declarations_list compound_statement SEPARATOR_LINE ;
 method_header :
-	PROCEDURE ID BRACKET_O arguments BRACKET_C SEPARATOR_LINE
-	|
-	FUNCTION ID BRACKET_O arguments BRACKET_C TYPIFIER type SEPARATOR_LINE  ;
+	PROCEDURE ID BRACKET_O arguments BRACKET_C SEPARATOR_LINE ;
 method_call :
 	ID BRACKET_O call_parameters BRACKET_C ;
 call_parameters :
