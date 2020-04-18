@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9b30b828-00d4-47a1-b962-e14f23121dae" name="Default Changelist" comment="">
+<<<<<<< HEAD
       <change afterPath="$PROJECT_DIR$/SyntaxicAnalysis/Interface.ui" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/SyntaxicAnalysis/PascalCompilerProject.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/SyntaxicAnalysis/interface.py" afterDir="false" />
@@ -17,6 +18,15 @@
       <change afterPath="$PROJECT_DIR$/semantic.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pascal.y" beforeDir="false" afterPath="$PROJECT_DIR$/pascal.y" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lex.yy.c" beforeDir="false" afterPath="$PROJECT_DIR$/lex.yy.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pascal.exe" beforeDir="false" afterPath="$PROJECT_DIR$/pascal.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pascal.lex" beforeDir="false" afterPath="$PROJECT_DIR$/pascal.lex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pascal.tab.c" beforeDir="false" afterPath="$PROJECT_DIR$/pascal.tab.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pascal.y" beforeDir="false" afterPath="$PROJECT_DIR$/pascal.y" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_compile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/to_compile.txt" afterDir="false" />
+>>>>>>> master
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,29 +36,61 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pascal.lex">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="398">
               <caret line="58" column="10" selection-start-line="58" selection-start-column="1" selection-end-line="58" selection-end-column="10" />
+=======
+            <state relative-caret-position="414">
+              <caret line="56" column="36" lean-forward="true" selection-start-line="56" selection-start-column="36" selection-end-line="56" selection-end-column="36" />
             </state>
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/interface.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="246">
+              <caret line="32" column="15" lean-forward="true" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
+>>>>>>> master
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pascal.y">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="880">
               <caret line="40" column="29" lean-forward="true" selection-start-line="40" selection-start-column="29" selection-end-line="40" selection-end-column="29" />
+=======
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pascal.y">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3212">
+              <caret line="146" column="2" lean-forward="true" selection-start-line="146" selection-start-column="2" selection-end-line="146" selection-end-column="2" />
+>>>>>>> master
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/semantic.c">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="730">
               <caret line="77" column="8" lean-forward="true" selection-start-line="77" selection-start-column="8" selection-end-line="77" selection-end-column="8" />
+=======
+        <entry file="file://$PROJECT_DIR$/pascal.tab.c">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="11088">
+              <caret line="504" column="7" selection-start-line="504" selection-start-column="7" selection-end-line="504" selection-end-column="7" />
+>>>>>>> master
             </state>
           </provider>
         </entry>
@@ -86,9 +128,14 @@
         <option value="$PROJECT_DIR$/pascal.tab.h" />
         <option value="$PROJECT_DIR$/interface.py" />
         <option value="$PROJECT_DIR$/pascal.tab.c" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/pascal.lex" />
         <option value="$PROJECT_DIR$/semantic.c" />
         <option value="$PROJECT_DIR$/pascal.y" />
+=======
+        <option value="$PROJECT_DIR$/pascal.y" />
+        <option value="$PROJECT_DIR$/pascal.lex" />
+>>>>>>> master
       </list>
     </option>
   </component>
@@ -119,7 +166,11 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+<<<<<<< HEAD
     <property name="last_opened_file_path" value="$PROJECT_DIR$/SyntaxicAnalysis" />
+=======
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../compilation chayma" />
+>>>>>>> master
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -182,23 +233,39 @@
       <workItem from="1585761234835" duration="1792000" />
       <workItem from="1585825067291" duration="13034000" />
       <workItem from="1585850641993" duration="2430000" />
+<<<<<<< HEAD
       <workItem from="1586185557769" duration="2474000" />
       <workItem from="1587119673430" duration="17989000" />
+=======
+      <workItem from="1586185557769" duration="1728000" />
+>>>>>>> master
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="37833000" />
+=======
+    <option name="totallyTimeSpent" value="19098000" />
+>>>>>>> master
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
+<<<<<<< HEAD
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19402985" />
+=======
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19189766" />
+>>>>>>> master
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
+<<<<<<< HEAD
       <window_info anchor="bottom" id="Run" order="2" weight="0.4182015" />
+=======
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4182015" />
+>>>>>>> master
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -265,6 +332,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pascal.tab.c">
+<<<<<<< HEAD
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="11088">
           <caret line="504" column="7" selection-start-line="504" selection-start-column="7" selection-end-line="504" selection-end-column="7" />
@@ -295,13 +363,40 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="730">
           <caret line="77" column="8" lean-forward="true" selection-start-line="77" selection-start-column="8" selection-end-line="77" selection-end-column="8" />
+=======
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11088">
+          <caret line="504" column="7" selection-start-line="504" selection-start-column="7" selection-end-line="504" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/interface.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="32" column="15" lean-forward="true" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pascal.y">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3212">
+          <caret line="146" column="2" lean-forward="true" selection-start-line="146" selection-start-column="2" selection-end-line="146" selection-end-column="2" />
+>>>>>>> master
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pascal.lex">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="880">
           <caret line="40" column="29" lean-forward="true" selection-start-line="40" selection-start-column="29" selection-end-line="40" selection-end-column="29" />
+=======
+        <state relative-caret-position="414">
+          <caret line="56" column="36" lean-forward="true" selection-start-line="56" selection-start-column="36" selection-end-line="56" selection-end-column="36" />
+>>>>>>> master
         </state>
       </provider>
     </entry>
