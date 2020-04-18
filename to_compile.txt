@@ -1,9 +1,7 @@
-/* commentaire pour tester qu'il calcule bien
-le nombre de lignes
-foo */
 program pascal ;
+var x,y:integer ;
 begin 
 write("donner un entier ") ;
-read(x,);
+read(x);
 print("si on multiplie cet entier par 2 on trouve", x*2 ) 
-end . 
+end .

@@ -29,47 +29,87 @@ extern FILE *yyin;
 %%
 
 file:
-	program {fprintf(stderr, "#   program accepted by interpreter\n"); return (0) } ;
+	program
+	{
+		fprintf(stderr, "#   program accepted by interpreter\n"); return (0)
+	} ;
 program:
 	PROGRAM ID SEPARATOR_LINE declarations_list declaration_methods_list compound_statement SEPARATOR_DEAD
-	 {
-	 //create main node
-	 node * main = createNode($2,$1,null) ;
-	 //push to main sublist declaration list netsarfou fil nodes
-	 parrent = main ;
-	 current = null ;
-	 char * currentType ;
-	 strcpy(currentType,"") ;
-	 };
+	{
+		//create main node
+		node * main = createNode($2,$1,NULL) ;
+		//push to main sublist declaration list netsarfou fil nodes
+		//parrent = main ;
+		node * global = $4 ;
+		current = null ;
+		char * currentType ;
+		check(global)
+		CHECK(global, haja elli bech ncheckiha ) ;
+		strcpy(currentType,"") ;
+	};
 identifier_list:
 	ID
+	{
+		node * tmp = createNode($1,"void",NULL);
+		$$= tmp
+	}
 	|
-	ID SEPARATOR_LIST identifier_list ;
+	ID SEPARATOR_LIST identifier_list
+	{
+		addSibling($1,$3) ;
+		$$= $1 ;
+
+	};
 declarations_list:
 	/*empty*/
+	{
+		$$ = NULL ;
+	}
 	|
-	declarations_list VAR declaration SEPARATOR_LINE ;
+	VAR declaration SEPARATOR_LINE declarations_list
+	{
+		addSibling($2,$4) ;
+		$$ = $2 ;
+	};
 parameters_list:
 	declaration
+	{
+		$$ = $1 ;
+	}
 	|
-	declaration SEPARATOR_LINE parameters_list ;
+	declaration SEPARATOR_LINE parameters_list
+	{
+		addSibling($1,$3) ;
+		$$ = $1 ;
+	};
 declaration:
-	identifier_list TYPIFIER type { strcpy(currentType,$3) ; }
+	identifier_list TYPIFIER type
+	{
+		addTypeToSiblings($1,$3) ;
+		$$ = $1
+	}
 	|
-
 	identifier_list TYPIFIER ARRAY SBRACKET_O NUM DOTS NUM SBRACKET_C OF type
-	{// todo array bech ne5dmouga ye men 3ach
+	{
+	// todo array bech ne5dmouga ye men 3ach
 	}
 	;
-
 declaration_methods_list :
 	/* empty */
 	|
 	declaration_methods_list declaration_method
 declaration_method :
-	method_header declarations_list compound_statement SEPARATOR_LINE ;
+	method_header declarations_list compound_statement SEPARATOR_LINE
+	{
+		//node * variables = concatenateSiblingLists($1->children,$2) ;
+	};
 method_header :
 	PROCEDURE ID BRACKET_O arguments BRACKET_C SEPARATOR_LINE
+	{
+		node * tmp  = create($2, $1,NULL) ;
+		tmp->subList= initSubListWithList($4);
+		$$ = tmp ;
+	}
 	|
 	FUNCTION ID BRACKET_O arguments BRACKET_C TYPIFIER type SEPARATOR_LINE  ;
 method_call :
@@ -80,12 +120,24 @@ call_parameters :
 	expr_list ;
 arguments :
 	/* empty */
+	{
+		$$ = NULL ;
+	}
 	|
 	parameters_list
+	{
+		$$ = $1 ;
+	};
 type :
 	INTEGER
+	{
+		$$ = getType($1) ;
+	}
 	|
-	DOUBLE ;
+	DOUBLE
+	{
+		$$ = getType($1) ;
+	};
 compound_statement:
 	MC_BEGIN optional_statement END ;
 optional_statement:

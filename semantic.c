@@ -1,4 +1,4 @@
-enum TYPE_SYMBOL = { Int=1 , Float=2, String=3 , Procedure=4 , Function=5,Program =6} ;
+enum TYPE_SYMBOL = { Int=1 , Float=2, String=3 , Procedure=4 , Function=5,Program =6,Void= 7 } ;
 typedef struct node node ;
 typedef struct nodeList nodeList ;
 struct node {
@@ -42,6 +42,10 @@ TYPE_SYMBOL getType(char * type)
     {
         return program ;
     }
+    if (!(strcmp(type,"void"))
+    {
+        return program ;
+    }
 }
 
 nodeList *  initSubList()
@@ -50,6 +54,18 @@ nodeList *  initSubList()
     nodeList->symBlockHead=null ;
     nodeList->symBlockTail=null ;
     return list ;
+}
+nodeList * initSubListWithList(node * list)
+{
+    nodeList * subList = initSubList () ;
+    subList->symBlockHead = list ;
+    node * curr = list ;
+    while (curr->next)
+    {
+        curr = curr->next ;
+    }
+    subList->symBlockTail = curr ;
+    return subList ;
 }
 /*
 *   block is a node which can be a simple variable or a complex scope
@@ -87,7 +103,7 @@ node * popSymBlock(nodeList * subList){
 }
 
 //Search for conflict in block name
-int searchConflict(node, char * name, TYPE_SYMBOL type )
+int searchConflict(node * block, char * name, TYPE_SYMBOL type )
 {
     node * curr = block->next  ;
     while (curr)
@@ -95,6 +111,40 @@ int searchConflict(node, char * name, TYPE_SYMBOL type )
         if (curr->name == block->name)
     }
 }
+
+void addTypeToSiblings(node * block ,TYPE_SYMBOL type)
+{
+    node * curr = block  ;
+    while (curr)
+    {
+        curr->type= type ;
+        curr=curr->next ;
+    }
+}
+
+void addSibling(node * block ,node * blockList)
+{
+    block->next = blockList ;
+    if (blockList != NULL)
+        blockList->previous = block ;
+}
+// concatenate two lists of nodes for exemple a list of arguments and a list of declarations
+node * concatenateSiblingLists(node * list1, node * list2 )
+{
+    if (list1 == NULL )
+        return list2 ;
+    else
+    {
+        node * curr = list1 ;
+        while (curr-> next)
+        {
+        curr = curr-> next ;
+        }
+        curr-> next = list2 ;
+    }
+    return list1 ;
+}
+
 
 instconst(), instlabel(), insttype(), instvar(): Respectively, adds a new constant, label, type, or variable declaration inside the top block on the symbol table (stack).
 makeptrtype(), makeenumtype(), makerangetype(), makeidtype(), makerectype(), makearraytype(), makeuniontype(), makesettype(), makefiletype(): Creates various type nodes. Type of a variable is stored on the symbol table in a special variant data structure, which varies for each type.

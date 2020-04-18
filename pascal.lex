@@ -10,7 +10,7 @@ int comment_caller;
 %}
 
 
-delim     [ \t]
+delim     [\t]
 bl        {delim}+
 standardType "integer" 
 chiffre   [0-9]
