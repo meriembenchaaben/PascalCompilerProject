@@ -3,14 +3,14 @@
 #define YYDEBUG 1
 #include "pascal.tab.h"
 #include <stdio.h>
-#inclide "semantic2.c"
+#inclide "semantic.c"
 int yyerror(char const *msg);
 int yylex(void);
 extern int line_num;
 
 
 extern FILE *yyin;
-creerDico() ;
+
 
 %}
 
@@ -22,7 +22,7 @@ creerDico() ;
 %token PROGRAM MC_BEGIN END VAR ARRAY OF DOTS FUNCTION PROCEDURE IF THEN ELSE WHILE DO NOT SEPARATOR_LINE SEPARATOR_LIST SEPARATOR_DEAD TYPIFIER BRACKET_O BRACKET_C SBRACKET_O SBRACKET_C _BUILTIN_READ _BUILTIN_WRITE ASSIGN
 %token error COMMENT Number o_plus o_minus o_lor o_mul o_div o_mod o_land cmp_l cmp_leq cmp_eq cmp_neq cmp_g cmp_geq  OPPAFFECT
 
- 
+
 
 %start file
 
@@ -36,7 +36,6 @@ file:
 program:
 	PROGRAM ID SEPARATOR_LINE declarations_list declaration_methods_list compound_statement SEPARATOR_DEAD
 	{
-		nouveau(typePossible.tProgram) ;
 		//create main node
 		node * main = createNode($2,$1,NULL) ;
 		//push to main sublist declaration list netsarfou fil nodes
@@ -99,12 +98,9 @@ declaration_methods_list :
 	|
 	declaration_methods_list declaration_method
 declaration_method :
-	// apres method_header faires change scope (dictionaire ybadel el sommet wel base )
 	method_header declarations_list compound_statement SEPARATOR_LINE
 	{
 		//node * variables = concatenateSiblingLists($1->children,$2) ;
-
-		// raja3 el scope (sommet wel base ) ;
 	};
 method_header :
 	PROCEDURE ID BRACKET_O arguments BRACKET_C SEPARATOR_LINE
@@ -244,4 +240,4 @@ int yywrap()
 {
  return(1);
 }
-                   
+
