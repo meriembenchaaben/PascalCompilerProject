@@ -111,9 +111,17 @@ method_header :
 		$$ = tmp ;
 	}
 	|
-	FUNCTION ID BRACKET_O arguments BRACKET_C TYPIFIER type SEPARATOR_LINE  ;
+	FUNCTION ID BRACKET_O arguments BRACKET_C TYPIFIER type SEPARATOR_LINE
+	{
+		node * tmp  = create($2, $1,NULL) ;
+		tmp->subList= initSubListWithList($4);
+		$$ = tmp ;
+	};
 method_call :
-	ID BRACKET_O call_parameters BRACKET_C ;
+	ID BRACKET_O call_parameters BRACKET_C
+	{
+		checkFunction($1,$3) ;
+	};
 call_parameters :
 	/* empty */
 	|
