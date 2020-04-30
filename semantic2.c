@@ -1,26 +1,65 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 
 typedef
 enum {
     tChar, tShort, tInt, tLong, tFloat, tDouble,
-    tTableau, tFonction, tProcedure ,tProgram
+    tTableau, tFonction, tProcedure
 } typePossible;
-
+int number_errors = 0 ;
 typedef
 struct listeDescripteursTypes {
     struct descripteurType *info;
     struct listeDescripteursTypes *suivant;
 } listeDescripteursTypes;
+void concatenateTypeList(listeDescripteursTypes * list1,listeDescripteursTypes * list2)
+{
+    listeDescripteursTypes * curr = list1 ;
+    if (list1== NULL)
+        {list1 = list2 ;
+         return ;}
+    while (curr->suivant)
+        curr = curr-> suivant ;
+    curr-> suivant = list2 ;
+}
+const char* getTypeName(typePossible type)
+{
+   switch (type)
+   {
+      case tChar: return "tChar";
+      case tShort: return "tShort";
+      case tInt: return "tInt";
+      case tLong: return "tLong";
+      case tFloat: return "tFloat";
+      case tDouble: return "tDouble";
+      case tTableau: return "tTableau";
+      case tFonction: return "tFonction";
+      case tProcedure: return "tProcedure";
+   }
+}
+const typePossible getTypeByName(char *  type)
+{
 
+      if( strcmp("tChar",type)==0 ) return tChar;
+      if( strcmp( "tShort",type)==0 ) return tShort;
+      if( strcmp( "integer",type)==0 ) return tInt;
+      if( strcmp( "tLong",type)==0 ) return tLong;
+      if( strcmp( "tFloat",type)==0 ) return tFloat;
+      if( strcmp( "double",type)==0 ) return tDouble;
+      if( strcmp( "tTableau",type)==0 ) return tTableau;
+      if( strcmp( "function",type)==0 ) return tFonction;
+      if( strcmp( "procedure",type)==0 ) return tProcedure;
+}
 typedef
 struct descripteurType {
     typePossible classe;
     union {
         struct {
-            int nombreElements;
+            int indiceDebut;
+            int indiceFin;
             struct descripteurType *typeElement;
         } casTableau;
         struct {
@@ -33,34 +72,36 @@ struct descripteurType {
     } attributs;
 } descripteurType;
 
-descripteurType *nouveau(typePossible classe) {
+descripteurType * nouveau(typePossible classe) {
     descripteurType *res = malloc(sizeof(descripteurType));
+
     assert(res != NULL);
     res->classe = classe;
+
     return res;
 }
 
 struct {
     char *lexeme;
     int uniteLexicale;
-} motRes[N];
+} motRes[50];
 
-
+int memeListeTypes(listeDescripteursTypes *a, listeDescripteursTypes *b);
 int memeType(descripteurType *a, descripteurType *b) {
     if (a->classe != b->classe)
     return 0;
     switch (a->classe) {
-        case tPointeur:
-            return memeType(a->attributs.casPointeur.typePointe,
-                            b->attributs.casPointeur.typePointe);
         case tTableau:
-            return a->attributs.casTableau.nombreElements ==
-                   b->attributs.casTableau.nombreElements
+            return (a->attributs.casTableau.indiceDebut ==
+                   b->attributs.casTableau.indiceDebut)
+                &&
+                   (a->attributs.casTableau.indiceFin ==
+                   b->attributs.casTableau.indiceFin)
                 && memeType(a->attributs.casTableau.typeElement,
                             b->attributs.casTableau.typeElement);
-        case tStructure:
-            return memeListeTypes(a->attributs.casStructure.typesChamps,
-                                  b->attributs.casStructure.typesChamps);
+        case tProcedure:
+            return memeListeTypes(a->attributs.casProcedure.typesArguments,
+                                  b->attributs.casProcedure.typesArguments);
         case tFonction:
             return memeType(a->attributs.casFonction.typeResultat,
                             b->attributs.casFonction.typeResultat)
@@ -74,8 +115,8 @@ int memeListeTypes(listeDescripteursTypes *a, listeDescripteursTypes *b) {
     while (a != NULL && b != NULL) {
         if ( ! memeType(a->info, b->info))
             return 0;
-        a = a->suiv;
-        b = b->suiv;
+        a = a->suivant;
+        b = b->suivant;
     }
     return a == NULL && b == NULL;
 }
@@ -84,18 +125,22 @@ typedef
 struct {
     char *identif;
     descripteurType type;
-    int used = 0 ;
+    int used  ;
+    int declarationLine ;
 } ENTREE_DICO;
 
 #define TAILLE_INITIALE_DICO 200
 #define INCREMENT_TAILLE_DICO 25
 
-
+ENTREE_DICO * dico ;
 int maxDico, sommet, base;
-
-void creerDico(void) {
+void erreurFatale(char *message) {
+    fprintf(stderr, "%s\n", message);
+    exit(-1);
+}
+void creerDico() {
     maxDico = TAILLE_INITIALE_DICO;
-    dico = malloc(maxDico * sizeof(ENTREE_DICO));
+    dico = (ENTREE_DICO*)  malloc(maxDico * sizeof(ENTREE_DICO));
     if (dico == NULL)
         erreurFatale("Erreur interne (pas assez de mémoire)");
     sommet = base = 0;
@@ -108,18 +153,144 @@ void agrandirDico(void) {
         erreurFatale("Erreur interne (pas assez de mémoire)");
 }
 
-void erreurFatale(char *message) {
-    fprintf(stderr, "%s\n", message);
-    exit(-1);
+int primitiveType (descripteurType  type){
+    if (type.classe==(tChar|| tShort|| tInt|| tLong|| tFloat|| tDouble||tTableau ))
+        return 1 ;
+}
+int verifAjout(char *identif, descripteurType  type){
+    int i ;
+    for (i=base ;i<sommet;i++)
+        if (!strcmp(identif,dico[i].identif)){
+            if ((primitiveType(type)&& primitiveType(dico[i].type))||memeType(&type,&dico[i].type))
+                return dico[i].declarationLine ;
+    }
+    return -1 ;
 }
 
-void ajouterEntree(char *identif, descripteurType type) {
+void ajouterEntree(char *identif, descripteurType  type,int declarationLine) {
     if (sommet >= maxDico)
         agrandirDico();
     dico[sommet].identif = malloc(strlen(identif) + 1);
     if (dico[sommet].identif == NULL)
-        erreurFatale("Erreur interne (pas assez de mémoire)");
+        {
+            erreurFatale("Erreur interne (pas assez de mémoire)");
+            number_errors ++ ;
+        }
+    int dec=verifAjout(identif,type);
+    if(dec !=-1)
+    {
+        number_errors++ ;
+        fprintf(stderr,"Identificateur %s dupliqué a la ligne %d declare deja a la ligne %d\n",identif,declarationLine,dec);
+        return ;
+    }
     strcpy(dico[sommet].identif, identif);
     dico[sommet].type = type;
+    dico[sommet].used = 0 ;
+    dico[sommet].declarationLine = declarationLine ;
     sommet++;
+}
+void printCurrentDict(){
+    int i=0 ;
+    printf("La base = %d Le sommet = %d \n",base,sommet);
+    if(base!=0)
+    {
+        printf("Nous sommes dans un scope local \n") ;
+    }
+    else printf("Nous sommes dans un scope global \n") ;
+    for (i= base;i<sommet;i++)
+    {
+        printf("L'entree num %d a l'identificateur %s et le type %s",i-base+1,dico[i].identif,getTypeName(dico[i].type.classe)) ;
+    }
+}
+void upScope(){
+    base = sommet ;
+}
+void downScope(){
+    sommet = base ;
+    base = 0 ;
+}
+
+/*********************************************************************************************\
+\*********************************************************************************************/
+
+
+// A linked list (LL) node to store a queue entry
+typedef struct QNode {
+    char * key;
+    struct QNode* next;
+}QNode;
+
+// The queue, front stores the front node of LL and rear stores the
+// last node of LL
+typedef struct Queue {
+    struct QNode *front, *rear;
+}Queue;
+
+// A utility function to create a new linked list node.
+QNode* newNode(char * k)
+{
+    QNode* temp = (QNode*)malloc(sizeof(QNode));
+    temp->key = k;
+    temp->next = NULL;
+    return temp;
+}
+
+// A utility function to create an empty queue
+Queue* createQueue()
+{
+    Queue* q = (Queue*)malloc(sizeof(Queue));
+    q->front = q->rear = NULL;
+    return q;
+}
+
+// The function to add a key k to q
+void enQueue(Queue* q, char* k)
+{
+    // Create a new LL node
+    QNode* temp = newNode(k);
+
+    // If queue is empty, then new node is front and rear both
+    if (q->rear == NULL) {
+        q->front = q->rear = temp;
+        return;
+    }
+
+    // Add the new node at the end of queue and change rear
+    q->rear->next = temp;
+    q->rear = temp;
+}
+// The function to concatenate two queues
+void enQueueQueue(Queue* q,Queue* p)
+{
+    // If second queue is empty, then new node is front and rear both
+    if(p->rear == NULL)
+    {
+        return ;
+    }
+    // If first queue is empty, then new node is front and rear both
+    if (q->rear == NULL) {
+        q->front = p->front;
+        q->rear  = p->rear;
+        return;
+    }
+    q->rear->next = p->front ;
+    q->rear = p->rear ;
+}
+// Function to remove a key from given queue q
+void deQueue(Queue* q)
+{
+    // If queue is empty, return NULL.
+    if (q->front == NULL)
+        return;
+
+    // Store previous front and move front one node ahead
+    QNode* temp = q->front;
+
+    q->front = q->front->next;
+
+    // If front becomes NULL, then change rear also as NULL
+    if (q->front == NULL)
+        q->rear = NULL;
+
+    free(temp);
 }

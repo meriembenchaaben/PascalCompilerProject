@@ -1,7 +1,7 @@
-program pascal ;
-var x,y:integer ;
+program id ; 
+procedure x(c,d:integer;e:double) ;
 begin 
-write("donner un entier ") ;
-read(x);
-print("si on multiplie cet entier par 2 on trouve", x*2 ) 
-end .
+end ;
+begin 
+
+end .  

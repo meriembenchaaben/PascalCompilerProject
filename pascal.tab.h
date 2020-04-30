@@ -1,9 +1,10 @@
-/* A Bison parser, made by GNU Bison 2.4.2.  */
+
+/* A Bison parser, made by GNU Bison 2.4.1.  */
 
 /* Skeleton interface for Bison's Yacc-like parsers in C
    
-      Copyright (C) 1984, 1989-1990, 2000-2006, 2009-2010 Free Software
-   Foundation, Inc.
+      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
+   Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -40,20 +41,20 @@
    enum yytokentype {
      EXP = 258,
      STR = 259,
-     NUM = 260,
-     ID = 261,
-     INTEGER = 262,
-     DOUBLE = 263,
-     STRING = 264,
-     PROGRAM = 265,
-     MC_BEGIN = 266,
-     END = 267,
-     VAR = 268,
-     ARRAY = 269,
-     OF = 270,
-     DOTS = 271,
-     FUNCTION = 272,
-     PROCEDURE = 273,
+     ID = 260,
+     PROCEDURE = 261,
+     FUNCTION = 262,
+     ARRAY = 263,
+     INTEGER = 264,
+     DOUBLE = 265,
+     STRING = 266,
+     NUM = 267,
+     PROGRAM = 268,
+     MC_BEGIN = 269,
+     END = 270,
+     VAR = 271,
+     OF = 272,
+     DOTS = 273,
      IF = 274,
      THEN = 275,
      ELSE = 276,
@@ -93,7 +94,23 @@
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+{
+
+/* Line 1676 of yacc.c  */
+#line 17 "pascal.y"
+
+        int number;
+        char *string;
+        double fnumber;
+        struct Queue * queue ;
+        struct listeDescripteursTypes * listType ;
+
+
+
+/* Line 1676 of yacc.c  */
+#line 113 "pascal.tab.h"
+} YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

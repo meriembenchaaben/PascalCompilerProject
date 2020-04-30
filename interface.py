@@ -48,7 +48,7 @@ def menu():
         file.write(code.toPlainText())
         file.close()
         path = "to_compile.txt"
-    out = subprocess.Popen("pascal.exe " + path, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    out = subprocess.Popen("pascal3.exe " + path, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     stdout, stderr = out.communicate()
     if out.returncode == 1 :
         resultsTextEdit.setTextColor(QtGui.QColor(255,0,0))

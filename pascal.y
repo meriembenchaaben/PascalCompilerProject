@@ -1,29 +1,35 @@
 %error-verbose
+
 %{
 #define YYDEBUG 1
 #include "pascal.tab.h"
 #include <stdio.h>
-#inclide "semantic2.c"
+#include "semantic2.c"
 int yyerror(char const *msg);
 int yylex(void);
 extern int line_num;
-
-
 extern FILE *yyin;
-creerDico() ;
+extern int number_errors ;
 
 %}
 
-%token  EXP
-%token  STR
-%token  NUM
-%token  ID
-%token  INTEGER DOUBLE STRING
-%token PROGRAM MC_BEGIN END VAR ARRAY OF DOTS FUNCTION PROCEDURE IF THEN ELSE WHILE DO NOT SEPARATOR_LINE SEPARATOR_LIST SEPARATOR_DEAD TYPIFIER BRACKET_O BRACKET_C SBRACKET_O SBRACKET_C _BUILTIN_READ _BUILTIN_WRITE ASSIGN
+%union
+{
+        int number;
+        char *string;
+        double fnumber;
+        struct Queue * queue ;
+        struct listeDescripteursTypes * listType ;
+}
+%token  <fnumber>EXP
+%token  <string>STR ID PROCEDURE FUNCTION ARRAY INTEGER DOUBLE STRING
+%token  <number>NUM
+
+%token PROGRAM MC_BEGIN END VAR OF DOTS IF THEN ELSE WHILE DO NOT SEPARATOR_LINE SEPARATOR_LIST SEPARATOR_DEAD TYPIFIER BRACKET_O BRACKET_C SBRACKET_O SBRACKET_C _BUILTIN_READ _BUILTIN_WRITE ASSIGN
 %token error COMMENT Number o_plus o_minus o_lor o_mul o_div o_mod o_land cmp_l cmp_leq cmp_eq cmp_neq cmp_g cmp_geq  OPPAFFECT
-
- 
-
+%type <listType> arguments declaration declarations_list parameters_list
+%type <queue> identifier_list
+%type <string> type
 %start file
 
 %%
@@ -31,34 +37,39 @@ creerDico() ;
 file:
 	program
 	{
-		fprintf(stderr, "#   program accepted by interpreter\n"); return (0)
+		printCurrentDict() ;
+		if(number_errors)
+		return 1 ;
+		fprintf(stderr, "#program accepted by interpreter\n"); return (0)
 	} ;
 program:
 	PROGRAM ID SEPARATOR_LINE declarations_list declaration_methods_list compound_statement SEPARATOR_DEAD
 	{
-		nouveau(typePossible.tProgram) ;
 		//create main node
-		node * main = createNode($2,$1,NULL) ;
+		//node * main = createNode($2,$1,NULL) ;
 		//push to main sublist declaration list netsarfou fil nodes
 		//parrent = main ;
-		node * global = $4 ;
-		current = null ;
-		char * currentType ;
-		check(global)
-		CHECK(global, haja elli bech ncheckiha ) ;
-		strcpy(currentType,"") ;
+		//node * global = $4 ;
+		//current = null ;
+		//char * currentType ;
+		//check(global)
+		//CHECK(global, haja elli bech ncheckiha ) ;
+		//strcpy(currentType,"") ;
 	};
 identifier_list:
 	ID
 	{
-		node * tmp = createNode($1,"void",NULL);
-		$$= tmp
+		Queue * temp = createQueue() ;
+		enQueue(temp,$1);
+		$$ = temp ;
 	}
 	|
 	ID SEPARATOR_LIST identifier_list
 	{
-		addSibling($1,$3) ;
-		$$= $1 ;
+		Queue * temp = createQueue() ;
+		enQueue(temp,$1);
+		enQueueQueue(temp,$3);
+		$$= temp;
 	};
 declarations_list:
 	/*empty*/
@@ -68,8 +79,7 @@ declarations_list:
 	|
 	VAR declaration SEPARATOR_LINE declarations_list
 	{
-		addSibling($2,$4) ;
-		$$ = $2 ;
+		$$ = NULL
 	};
 parameters_list:
 	declaration
@@ -79,56 +89,10 @@ parameters_list:
 	|
 	declaration SEPARATOR_LINE parameters_list
 	{
-		addSibling($1,$3) ;
-		$$ = $1 ;
+		listeDescripteursTypes * list1 = $1;
+		concatenateTypeList(list1,$3) ;
+		$$=list1 ;
 	};
-declaration:
-	identifier_list TYPIFIER type
-	{
-		addTypeToSiblings($1,$3) ;
-		$$ = $1
-	}
-	|
-	identifier_list TYPIFIER ARRAY SBRACKET_O NUM DOTS NUM SBRACKET_C OF type
-	{
-	// todo array bech ne5dmouga ye men 3ach
-	}
-	;
-declaration_methods_list :
-	/* empty */
-	|
-	declaration_methods_list declaration_method
-declaration_method :
-	// apres method_header faires change scope (dictionaire ybadel el sommet wel base )
-	method_header declarations_list compound_statement SEPARATOR_LINE
-	{
-		//node * variables = concatenateSiblingLists($1->children,$2) ;
-
-		// raja3 el scope (sommet wel base ) ;
-	};
-method_header :
-	PROCEDURE ID BRACKET_O arguments BRACKET_C SEPARATOR_LINE
-	{
-		node * tmp  = create($2, $1,NULL) ;
-		tmp->subList= initSubListWithList($4);
-		$$ = tmp ;
-	}
-	|
-	FUNCTION ID BRACKET_O arguments BRACKET_C TYPIFIER type SEPARATOR_LINE
-	{
-		node * tmp  = create($2, $1,NULL) ;
-		tmp->subList= initSubListWithList($4);
-		$$ = tmp ;
-	};
-method_call :
-	ID BRACKET_O call_parameters BRACKET_C
-	{
-		checkFunction($1,$3) ;
-	};
-call_parameters :
-	/* empty */
-	|
-	expr_list ;
 arguments :
 	/* empty */
 	{
@@ -139,15 +103,115 @@ arguments :
 	{
 		$$ = $1 ;
 	};
+declaration:
+	identifier_list TYPIFIER type
+	{
+		listeDescripteursTypes *head = head=NULL ;
+		Queue * tempQueue = $1 ;
+		descripteurType * tempType ;
+		while (tempQueue->front){
+
+			tempType =nouveau(getTypeByName($3)) ;
+			ajouterEntree(tempQueue->front->key,*tempType,line_num) ;
+
+
+			listeDescripteursTypes *new = malloc(sizeof(listeDescripteursTypes));
+			new->info = tempType ;
+			new->suivant = head ;
+			head = new ;
+
+
+			deQueue(tempQueue) ;
+		}
+		//printCurrentDict() ;
+		//addTypeToSiblings($1,$3) ;
+		//$$ = $1
+		$$= head ;
+	}
+	|
+	identifier_list TYPIFIER ARRAY SBRACKET_O NUM DOTS NUM SBRACKET_C OF type
+	{
+		listeDescripteursTypes *head  = NULL ;
+		Queue * tempQueue = $1 ;
+		descripteurType * tempType =nouveau(getTypeByName("tTableau")) ;
+		tempType->attributs.casTableau.indiceDebut= $5 ;
+		tempType->attributs.casTableau.indiceFin= $7 ;
+		//fprintf(stderr,"%s ",getTypeName(nouveau(getTypeByName($10))->classe));
+		descripteurType * tempElementType=nouveau(getTypeByName($10));
+		tempType->attributs.casTableau.typeElement = tempElementType ;
+
+		while (tempQueue->front!= NULL){
+
+			ajouterEntree(tempQueue->front->key,*tempType,line_num) ;
+
+			listeDescripteursTypes *new = malloc(sizeof(listeDescripteursTypes));
+			new->info = tempType ;
+			new->suivant = head ;
+			head = new ;
+
+			deQueue(tempQueue) ;
+		}
+		//printCurrentDict() ;
+		$$= head ;
+	// todo array bech ne5dmouga ye men 3ach
+	}
+	;
+declaration_methods_list :
+	/* empty */
+	|
+	declaration_method declaration_methods_list
+declaration_method :
+	// apres method_header faires change scope (dictionaire ybadel el sommet wel base )
+	{
+	//badel scope
+	}
+	method_header declarations_list compound_statement SEPARATOR_LINE
+	{
+		//node * variables = concatenateSiblingLists($1->children,$2) ;
+
+		// raja3 el scope (sommet wel base ) ;
+
+	};
+method_header :
+	PROCEDURE ID BRACKET_O arguments BRACKET_C SEPARATOR_LINE
+	{
+
+
+		descripteurType * tempType =nouveau(getTypeByName($1)) ;
+		tempType->attributs.casProcedure.typesArguments = $4 ;
+		ajouterEntree($2,*tempType,line_num) ;
+		//printCurrentDict() ;
+		//$$= NULL
+	}
+	|
+	FUNCTION ID BRACKET_O arguments BRACKET_C TYPIFIER type SEPARATOR_LINE
+	{
+		descripteurType * tempType =nouveau(getTypeByName($1)) ;
+		descripteurType * tempReturnType=nouveau(getTypeByName($7));
+		tempType->attributs.casFonction.typeResultat = tempReturnType ;
+		tempType->attributs.casFonction.typesArguments = $4 ;
+		ajouterEntree($2,*tempType,line_num) ;
+		//printCurrentDict() ;
+		//$$= NULL
+	};
+method_call :
+	ID BRACKET_O call_parameters BRACKET_C
+	{
+		//checkFunction($1,$3) ;
+	};
+call_parameters :
+	/* empty */
+	|
+	expr_list ;
 type :
 	INTEGER
 	{
-		$$ = getType($1) ;
+		$$ = $1 ;
 	}
 	|
 	DOUBLE
 	{
-		$$ = getType($1) ;
+		$$ = $1 ;
 	};
 compound_statement:
 	MC_BEGIN optional_statement END ;
@@ -230,8 +294,13 @@ int yyerror(char const *msg) {
 	fprintf(stderr, "Sorry for you , %s %d\n", msg,line_num);
 	return 0;
 }
+
 int main(int argc,char** argv)
 {
+
+
+	creerDico() ;
+
 	char str[60];
 	yyin = fopen(argv[1],"r");
 
