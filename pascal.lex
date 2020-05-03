@@ -63,7 +63,9 @@ COMMENT_LINE       "//".*[\n]
 "while"     		{return WHILE;}
 "do"        		{return DO;}
 "not"       		{return NOT;}
-
+"True|False"                   {if (!strcmp(yytext,"True"))yylval.bool=true ;
+                                else yybal.bool=false ;
+                                return Bool ; }
 ","         {return SEPARATOR_LIST;}
 ";"         {return SEPARATOR_LINE;}
 "."         {return SEPARATOR_DEAD;}

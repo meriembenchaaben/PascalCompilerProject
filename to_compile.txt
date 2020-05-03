@@ -1,7 +1,6 @@
 program id ; 
-procedure x(c,d:integer;e:double) ;
+var x : integer ;
 begin 
-end ;
 begin 
-
+end 
 end .  

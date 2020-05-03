@@ -10,6 +10,7 @@ int yylex(void);
 extern int line_num;
 extern FILE *yyin;
 extern int number_errors ;
+int currFunctionIndex ;
 
 %}
 
@@ -18,18 +19,22 @@ extern int number_errors ;
         int number;
         char *string;
         double fnumber;
+        boolean bool ;
         struct Queue * queue ;
+        //struct QueueType * queueType ;
         struct listeDescripteursTypes * listType ;
+        typePossible type
 }
 %token  <fnumber>EXP
 %token  <string>STR ID PROCEDURE FUNCTION ARRAY INTEGER DOUBLE STRING
 %token  <number>NUM
-
+%token <bool>Bool
 %token PROGRAM MC_BEGIN END VAR OF DOTS IF THEN ELSE WHILE DO NOT SEPARATOR_LINE SEPARATOR_LIST SEPARATOR_DEAD TYPIFIER BRACKET_O BRACKET_C SBRACKET_O SBRACKET_C _BUILTIN_READ _BUILTIN_WRITE ASSIGN
 %token error COMMENT Number o_plus o_minus o_lor o_mul o_div o_mod o_land cmp_l cmp_leq cmp_eq cmp_neq cmp_g cmp_geq  OPPAFFECT
-%type <listType> arguments declaration declarations_list parameters_list
+%type <listType> arguments declaration declarations_list parameters_list expr_list
 %type <queue> identifier_list
-%type <string> type
+%type <string> type variable
+%type <type> term factor
 %start file
 
 %%
@@ -37,13 +42,18 @@ extern int number_errors ;
 file:
 	program
 	{
-		printCurrentDict() ;
+		//printCurrentDict() ;
+
 		if(number_errors)
 		return 1 ;
-		fprintf(stderr, "#program accepted by interpreter\n"); return (0)
+		fprintf(stderr, "#program accepted by interpreter\n");
+		return (0) ;
+
 	} ;
 program:
-	PROGRAM ID SEPARATOR_LINE declarations_list declaration_methods_list compound_statement SEPARATOR_DEAD
+	PROGRAM ID{
+		ajouterEntree($2,*nouveau(getTypeByName("program")) ,line_num) ;
+	} SEPARATOR_LINE declarations_list declaration_methods_list compound_statement SEPARATOR_DEAD
 	{
 		//create main node
 		//node * main = createNode($2,$1,NULL) ;
@@ -106,7 +116,7 @@ arguments :
 declaration:
 	identifier_list TYPIFIER type
 	{
-		listeDescripteursTypes *head = head=NULL ;
+		listeDescripteursTypes *head = NULL ;
 		Queue * tempQueue = $1 ;
 		descripteurType * tempType ;
 		while (tempQueue->front){
@@ -159,18 +169,21 @@ declaration:
 declaration_methods_list :
 	/* empty */
 	|
-	declaration_method declaration_methods_list
-declaration_method :
-	// apres method_header faires change scope (dictionaire ybadel el sommet wel base )
 	{
-	//badel scope
-	}
+	upScope() ;
+	}declaration_method declaration_methods_list
+declaration_method  :
+	// apres method_header faires change scope (dictionaire ybadel el sommet wel base )
+
 	method_header declarations_list compound_statement SEPARATOR_LINE
 	{
 		//node * variables = concatenateSiblingLists($1->children,$2) ;
-
-		// raja3 el scope (sommet wel base ) ;
-
+		//printCurrentDict();
+		downScope() ;
+		if(currFunctionIndex >=0)
+		{
+		ajouterEntree(dico[currFunctionIndex].identif,dico[currFunctionIndex].type,dico[currFunctionIndex].declarationLine) ;
+		}
 	};
 method_header :
 	PROCEDURE ID BRACKET_O arguments BRACKET_C SEPARATOR_LINE
@@ -179,7 +192,7 @@ method_header :
 
 		descripteurType * tempType =nouveau(getTypeByName($1)) ;
 		tempType->attributs.casProcedure.typesArguments = $4 ;
-		ajouterEntree($2,*tempType,line_num) ;
+		currFunctionIndex = ajouterEntree($2,*tempType,line_num) ;
 		//printCurrentDict() ;
 		//$$= NULL
 	}
@@ -190,7 +203,7 @@ method_header :
 		descripteurType * tempReturnType=nouveau(getTypeByName($7));
 		tempType->attributs.casFonction.typeResultat = tempReturnType ;
 		tempType->attributs.casFonction.typesArguments = $4 ;
-		ajouterEntree($2,*tempType,line_num) ;
+		currFunctionIndex = ajouterEntree($2,*tempType,line_num) ;
 		//printCurrentDict() ;
 		//$$= NULL
 	};
@@ -225,6 +238,22 @@ statement_list:
 	statement_list SEPARATOR_LINE statement ;
 statement:
 	variable ASSIGN expr
+	{
+		/*ENTREE_DICO * variable  = search_variable($1) ;
+		if (variable)
+		{
+			if(memeType($3,variable->type)
+			{
+				variable->used = 1 ;
+			}
+			else
+			{
+				nberrors++ ;
+				fprintf(stderr,"Type variable incompatible \n");
+			}
+
+		}*/
+	}
 	|
 	compound_statement
 	|
@@ -237,18 +266,44 @@ statement:
 	WHILE expr DO statement
 	|
 	_BUILTIN_READ BRACKET_O identifier_list BRACKET_C
+	{
+		Queue * tempQueue = $3 ;
+		while (tempQueue->front){
+			search_variable(front) ;
+			deQueue(tempQueue) ;
+		}
+	}
 	|
 	_BUILTIN_WRITE BRACKET_O expr_list BRACKET_C ;
 variable:
-	ID ;
+	ID {$$=$1};
 expr_list:
-	expr
+	expr{
+		listeDescripteursTypes *head = NULL ;
+		head->info= nouveau($1) ;
+		head->suivant= NULL ;
+		$$=head ;
+	}
 	|
-	expr SEPARATOR_LIST expr_list ;
+	expr SEPARATOR_LIST expr_list
+	{
+		listeDescripteursTypes * list1 = $1;
+		concatenateTypeList(list1,$3) ;
+		$$=list1 ;
+	};
+
 expr:
 	simple_expr
+	{
+		$$= $1 ;
+	}
 	|
 	simple_expr cmp_leq simple_expr
+	{
+		if($1==tString&&$3==tString)
+			$$= tBool
+		if($1==tInt || $1==
+	}
 	|
 	simple_expr cmp_geq simple_expr
 	|
@@ -261,32 +316,123 @@ expr:
 	simple_expr cmp_g   simple_expr ;
 simple_expr:
 	term
+	{
+		$$=$1
+	}
 	|
 	simple_expr o_plus  term
+	{
+		if($1==tInt&&$3==tInt)
+			$$ = tInt;
+		if($1==tInt || $3==tInt)
+			if($1==tDouble||$3==tDouble)
+				$$ = tDouble;
+		if($1==tDouble&&$3==tDouble)
+			$$= tDouble ;
+		if($1==tString&&$3==tString)
+			$$=tString ;
+		number_errors ++ ;
+		printf("Operator is not overloaded at line : %d\n",line_num) ;
+	}
 	|
 	simple_expr o_minus term
+	{
+		if($1==tInt&&$3==tInt)
+			$$ = tInt;
+		if($1==tInt || $3==tInt)
+			if($1==tDouble||$3==tDouble)
+				$$ = tDouble;
+		if($1==tDouble&&$3==tDouble)
+			$$= tDouble ;
+		number_errors ++ ;
+		printf("Operator is not overloaded at line : %d\n",line_num) ;
+	}
 	|
-	simple_expr o_lor   term ;
+	simple_expr o_lor  term
+	{
+		if($1==tBool&&$3==tBool)
+			$$ = tBool;
+		number_errors ++ ;
+		printf("Operator is not overloaded at line : %d\n",line_num) ;
+		$$=$1 ;
+	};
 term:
 	factor
+	{
+		$$=$1 ;
+	}
 	|
 	term o_mul  factor
+	{
+		if($1==tInt&&$3==tInt)
+			$$ = tInt;
+		if($1==tInt || $3==tInt)
+			if($1==tDouble||$3==tDouble)
+				$$ = tDouble;
+		if($1==tDouble&&$3==tDouble)
+			$$= tDouble ;
+		number_errors ++ ;
+		printf("Operator is not overloaded at line : %d\n",line_num) ;
+	}
 	|
 	term o_land factor
+	{
+		if($1==tBool&&$3==tBool)
+			$$ = tBool;
+		number_errors ++ ;
+		printf("Operator is not overloaded at line : %d\n",line_num) ;
+		$$=$1 ;
+
+	}
 	|
 	term o_div  factor
+	{
+		$$=tDouble ;
+	}
 	|
-	term o_mod  factor ;
+	term o_mod  factor
+	{
+		if($1!=tInt||$3!=tInt)
+		{
+			number_errors ++ ;
+			printf("Operator is not overloaded at line : %d\n",line_num) ;
+		}
+		$$=tInt
+	};
 factor:
 	NUM
+	{
+		$$=tInt ;
+	}
 	|
 	EXP
+	{
+		$$=tDouble ;
+	}
 	|
 	STR
+	{
+		$$=tString ;
+	}
 	|
 	ID
+	{
+		ENTREE_DICO * variable  = search_variable($1) ;
+		if (variable)
+		{
+			$$= variable->type.classe ;
+		}
+		//probablement va causer des probs
+	}
 	|
-	BRACKET_O expr BRACKET_C ;
+	BRACKET_O expr BRACKET_C
+	{
+		$$=$2 ;
+	}
+	Bool
+	{
+		$$=tBool ;
+	};
 %%
 
 #include <stdlib.h>

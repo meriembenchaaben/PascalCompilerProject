@@ -6,10 +6,11 @@
 
 typedef
 enum {
-    tChar, tShort, tInt, tLong, tFloat, tDouble,
-    tTableau, tFonction, tProcedure
+    tChar, tShort, tInt, tLong, tFloat, tDouble,tString,
+    tTableau, tFonction, tProcedure,tProgram,tBool
 } typePossible;
 int number_errors = 0 ;
+typedef enum {false, true} boolean;
 typedef
 struct listeDescripteursTypes {
     struct descripteurType *info;
@@ -38,6 +39,9 @@ const char* getTypeName(typePossible type)
       case tTableau: return "tTableau";
       case tFonction: return "tFonction";
       case tProcedure: return "tProcedure";
+      case tProgram: return "tProgram";
+      case tString: return "tString";
+      case tBool: return "tBool";
    }
 }
 const typePossible getTypeByName(char *  type)
@@ -52,6 +56,10 @@ const typePossible getTypeByName(char *  type)
       if( strcmp( "tTableau",type)==0 ) return tTableau;
       if( strcmp( "function",type)==0 ) return tFonction;
       if( strcmp( "procedure",type)==0 ) return tProcedure;
+      if( strcmp( "program",type)==0 ) return tProgram;
+      if( strcmp( "string",type)==0 ) return tString;
+      if( strcmp( "bool",type)==0 ) return tBool;
+
 }
 typedef
 struct descripteurType {
@@ -154,8 +162,11 @@ void agrandirDico(void) {
 }
 
 int primitiveType (descripteurType  type){
-    if (type.classe==(tChar|| tShort|| tInt|| tLong|| tFloat|| tDouble||tTableau ))
+    if ((type.classe==tChar)|| (type.classe==tShort)||( type.classe==tInt)||(type.classe== tLong)|| (type.classe==tFloat));
         return 1 ;
+    if ((type.classe==tDouble)||(type.classe==tTableau)||(type.classe==tProgram)||(type.classe==tString)||(type.classe==tBool));
+        return 1;
+    return 0;
 }
 int verifAjout(char *identif, descripteurType  type){
     int i ;
@@ -167,7 +178,7 @@ int verifAjout(char *identif, descripteurType  type){
     return -1 ;
 }
 
-void ajouterEntree(char *identif, descripteurType  type,int declarationLine) {
+int ajouterEntree(char *identif, descripteurType type,int declarationLine) {
     if (sommet >= maxDico)
         agrandirDico();
     dico[sommet].identif = malloc(strlen(identif) + 1);
@@ -175,35 +186,51 @@ void ajouterEntree(char *identif, descripteurType  type,int declarationLine) {
         {
             erreurFatale("Erreur interne (pas assez de mémoire)");
             number_errors ++ ;
+            return -1 ;
         }
     int dec=verifAjout(identif,type);
     if(dec !=-1)
     {
         number_errors++ ;
         fprintf(stderr,"Identificateur %s dupliqué a la ligne %d declare deja a la ligne %d\n",identif,declarationLine,dec);
-        return ;
+        return -1;
     }
     strcpy(dico[sommet].identif, identif);
     dico[sommet].type = type;
     dico[sommet].used = 0 ;
     dico[sommet].declarationLine = declarationLine ;
     sommet++;
+    return sommet-1 ;
 }
 void printCurrentDict(){
     int i=0 ;
-    printf("La base = %d Le sommet = %d \n",base,sommet);
+    printf("La base = %d Le sommet = %d\n",base,sommet);
     if(base!=0)
     {
-        printf("Nous sommes dans un scope local \n") ;
+        printf("Nous sommes dans un scope local\n") ;
     }
-    else printf("Nous sommes dans un scope global \n") ;
+    else printf("Nous sommes dans un scope global\n") ;
     for (i= base;i<sommet;i++)
     {
-        printf("L'entree num %d a l'identificateur %s et le type %s",i-base+1,dico[i].identif,getTypeName(dico[i].type.classe)) ;
+        printf("L'entree num %d a l'identificateur %s et le type %s declaré a la ligne %d\n",i-base+1,dico[i].identif,getTypeName(dico[i].type.classe),dico[i].declarationLine) ;
     }
 }
 void upScope(){
     base = sommet ;
+}
+ENTREE_DICO * search_variable(char * identif){
+    int i = base ;
+    for (;i<sommet;i++)
+    {
+        if(primitiveType(dico[i].type))
+        if((!strcmp(identif,dico[i].identif))&&primitiveType(dico[i].type))
+        return &dico[i] ;
+
+    }
+
+    number_errors++ ;
+    fprintf(stderr,"Aucune variable avec l'identificateur %s n'est declarée \n",identif);
+    return NULL ;
 }
 void downScope(){
     sommet = base ;
@@ -294,3 +321,89 @@ void deQueue(Queue* q)
 
     free(temp);
 }
+
+
+/*********************************************************************************************\
+\*********************************************************************************************/
+/*
+
+// A linked list (LL) node to store a queue entry
+typedef struct QNodeType {
+    typePossible key;
+    struct QNodeType* next;
+}QNode;
+
+// The queue, front stores the front node of LL and rear stores the
+// last node of LL
+typedef struct QueueType {
+    struct QNodeType *front, *rear;
+}QueueType;
+
+// A utility function to create a new linked list node.
+QNodeType* newNodeType(typePossible k)
+{
+    QNodeType* temp = (QNodeType*)malloc(sizeof(QNodeType));
+    temp->key = k;
+    temp->next = NULL;
+    return temp;
+}
+
+// A utility function to create an empty queue
+QueueType* createQueueType()
+{
+    QueueType* q = (QueueType*)malloc(sizeof(QueueType));
+    q->front = q->rear = NULL;
+    return q;
+}
+
+// The function to add a key k to q
+void enQueueType(QueueType* q, typePossible k)
+{
+    // Create a new LL node
+    QNodeType* temp = newNodeType(k);
+
+    // If queue is empty, then new node is front and rear both
+    if (q->rear == NULL) {
+        q->front = q->rear = temp;
+        return;
+    }
+
+    // Add the new node at the end of queue and change rear
+    q->rear->next = temp;
+    q->rear = temp;
+}
+// The function to concatenate two queues
+void enQueueQueueType(QueueType* q,QueueType* p)
+{
+    // If second queue is empty, then new node is front and rear both
+    if(p->rear == NULL)
+    {
+        return ;
+    }
+    // If first queue is empty, then new node is front and rear both
+    if (q->rear == NULL) {
+        q->front = p->front;
+        q->rear  = p->rear;
+        return;
+    }
+    q->rear->next = p->front ;
+    q->rear = p->rear ;
+}
+// Function to remove a key from given queue q
+void deQueueType(QueueType* q)
+{
+    // If queue is empty, return NULL.
+    if (q->front == NULL)
+        return;
+
+    // Store previous front and move front one node ahead
+    QNodeType* temp = q->front;
+
+    q->front = q->front->next;
+
+    // If front becomes NULL, then change rear also as NULL
+    if (q->front == NULL)
+        q->rear = NULL;
+
+    free(temp);
+}*/
