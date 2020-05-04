@@ -3,6 +3,7 @@
 %{
 #define YYDEBUG 1
 #include "pascal.tab.h"
+#include "semantic.h"
 #include <stdio.h>
 #include "semantic2.c"
 int yyerror(char const *msg);
@@ -23,7 +24,7 @@ int currFunctionIndex ;
         struct Queue * queue ;
         //struct QueueType * queueType ;
         struct listeDescripteursTypes * listType ;
-        typePossible type
+        typePossible type_;
 }
 %token  <fnumber>EXP
 %token  <string>STR ID PROCEDURE FUNCTION ARRAY INTEGER DOUBLE STRING
@@ -34,7 +35,7 @@ int currFunctionIndex ;
 %type <listType> arguments declaration declarations_list parameters_list expr_list
 %type <queue> identifier_list
 %type <string> type variable
-%type <type> term factor
+%type <type_> term expr factor simple_expr
 %start file
 
 %%
@@ -301,8 +302,10 @@ expr:
 	simple_expr cmp_leq simple_expr
 	{
 		if($1==tString&&$3==tString)
-			$$= tBool
-		if($1==tInt || $1==
+			$$= tBool;
+		if(($1==tInt || $1==tDouble)&& ($3==tInt || $3==tDouble))
+			$$= tBool;
+
 	}
 	|
 	simple_expr cmp_geq simple_expr
@@ -429,6 +432,7 @@ factor:
 	{
 		$$=$2 ;
 	}
+	|
 	Bool
 	{
 		$$=tBool ;

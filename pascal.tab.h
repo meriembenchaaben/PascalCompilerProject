@@ -49,45 +49,46 @@
      DOUBLE = 265,
      STRING = 266,
      NUM = 267,
-     PROGRAM = 268,
-     MC_BEGIN = 269,
-     END = 270,
-     VAR = 271,
-     OF = 272,
-     DOTS = 273,
-     IF = 274,
-     THEN = 275,
-     ELSE = 276,
-     WHILE = 277,
-     DO = 278,
-     NOT = 279,
-     SEPARATOR_LINE = 280,
-     SEPARATOR_LIST = 281,
-     SEPARATOR_DEAD = 282,
-     TYPIFIER = 283,
-     BRACKET_O = 284,
-     BRACKET_C = 285,
-     SBRACKET_O = 286,
-     SBRACKET_C = 287,
-     _BUILTIN_READ = 288,
-     _BUILTIN_WRITE = 289,
-     ASSIGN = 290,
-     COMMENT = 291,
-     Number = 292,
-     o_plus = 293,
-     o_minus = 294,
-     o_lor = 295,
-     o_mul = 296,
-     o_div = 297,
-     o_mod = 298,
-     o_land = 299,
-     cmp_l = 300,
-     cmp_leq = 301,
-     cmp_eq = 302,
-     cmp_neq = 303,
-     cmp_g = 304,
-     cmp_geq = 305,
-     OPPAFFECT = 306
+     Bool = 268,
+     PROGRAM = 269,
+     MC_BEGIN = 270,
+     END = 271,
+     VAR = 272,
+     OF = 273,
+     DOTS = 274,
+     IF = 275,
+     THEN = 276,
+     ELSE = 277,
+     WHILE = 278,
+     DO = 279,
+     NOT = 280,
+     SEPARATOR_LINE = 281,
+     SEPARATOR_LIST = 282,
+     SEPARATOR_DEAD = 283,
+     TYPIFIER = 284,
+     BRACKET_O = 285,
+     BRACKET_C = 286,
+     SBRACKET_O = 287,
+     SBRACKET_C = 288,
+     _BUILTIN_READ = 289,
+     _BUILTIN_WRITE = 290,
+     ASSIGN = 291,
+     COMMENT = 292,
+     Number = 293,
+     o_plus = 294,
+     o_minus = 295,
+     o_lor = 296,
+     o_mul = 297,
+     o_div = 298,
+     o_mod = 299,
+     o_land = 300,
+     cmp_l = 301,
+     cmp_leq = 302,
+     cmp_eq = 303,
+     cmp_neq = 304,
+     cmp_g = 305,
+     cmp_geq = 306,
+     OPPAFFECT = 307
    };
 #endif
 
@@ -98,18 +99,21 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 18 "pascal.y"
+#line 19 "pascal.y"
 
         int number;
         char *string;
         double fnumber;
+        boolean bool ;
         struct Queue * queue ;
+        //struct QueueType * queueType ;
         struct listeDescripteursTypes * listType ;
+        typePossible type_;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 113 "pascal.tab.h"
+#line 117 "pascal.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

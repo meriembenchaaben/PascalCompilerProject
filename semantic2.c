@@ -2,15 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include "semantic.h"
 
 
-typedef
-enum {
-    tChar, tShort, tInt, tLong, tFloat, tDouble,tString,
-    tTableau, tFonction, tProcedure,tProgram,tBool
-} typePossible;
 int number_errors = 0 ;
-typedef enum {false, true} boolean;
 typedef
 struct listeDescripteursTypes {
     struct descripteurType *info;
