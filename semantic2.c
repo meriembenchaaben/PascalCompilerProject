@@ -37,6 +37,7 @@ const char* getTypeName(typePossible type)
       case tProgram: return "tProgram";
       case tString: return "tString";
       case tBool: return "tBool";
+      case tVoid: return "tVoid";
    }
 }
 const typePossible getTypeByName(char *  type)
@@ -54,6 +55,7 @@ const typePossible getTypeByName(char *  type)
       if( strcmp( "program",type)==0 ) return tProgram;
       if( strcmp( "string",type)==0 ) return tString;
       if( strcmp( "bool",type)==0 ) return tBool;
+      if( strcmp( "void",type)==0 ) return tVoid;
 
 }
 typedef
@@ -171,6 +173,28 @@ int verifAjout(char *identif, descripteurType  type){
                 return dico[i].declarationLine ;
     }
     return -1 ;
+}
+
+typePossible verifMethodCall(char * identif , listeDescripteursTypes * liste ){
+    int i ;
+    for (i=base ;i<sommet;i++)
+        if (!strcmp(identif,dico[i].identif)){
+            if ((!primitiveType(dico[i].type)){
+                if (dico[i].type->classe ==tProcedure){
+                    if memeListeTypes(dico[i].type->attributs.casProcedure.typesArguments,liste){
+                        return tVoid;
+                    }
+                }
+                else if (dico[i].type->classe ==tFonction){
+                    if memeListeTypes(dico[i].type->attributs.casFonction.typesArguments,liste){
+                        return dico[i].type->attributs.casFonction->typeResultat;
+                    }
+                }
+            }
+        }
+    erreurFatale("appel methode incorrect \n");
+    number_errors ++ ;
+    return tVoid;
 }
 
 int ajouterEntree(char *identif, descripteurType type,int declarationLine) {

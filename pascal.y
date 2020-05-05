@@ -2,10 +2,12 @@
 
 %{
 #define YYDEBUG 1
-#include "pascal.tab.h"
 #include "semantic.h"
+
 #include <stdio.h>
 #include "semantic2.c"
+#include "pascal.tab.h"
+
 int yyerror(char const *msg);
 int yylex(void);
 extern int line_num;
@@ -20,14 +22,11 @@ int currFunctionIndex ;
         int number;
         char *string;
         double fnumber;
-        boolean_ {false  , true }  bool ;
+        boolean_  bool ;
         struct Queue * queue ;
         //struct QueueType * queueType ;
         struct listeDescripteursTypes * listType ;
-        typePossible  {
-    	tChar, tShort, tInt, tLong, tFloat, tDouble,tString,
-    	tTableau, tFonction, tProcedure,tProgram,tBool
-	} type_;
+        typePossible  type_;
 }
 %token  <fnumber>EXP
 %token  <string>STR ID PROCEDURE FUNCTION ARRAY INTEGER DOUBLE STRING
@@ -38,7 +37,7 @@ int currFunctionIndex ;
 %type <listType> arguments declaration declarations_list parameters_list expr_list
 %type <queue> identifier_list
 %type <string> type variable
-%type <type_> term expr factor simple_expr
+%type <type_> term expr factor simple_expr method_call
 %start file
 
 %%
@@ -214,12 +213,19 @@ method_header :
 method_call :
 	ID BRACKET_O call_parameters BRACKET_C
 	{
-		//checkFunction($1,$3) ;
+		$$=verifMethodCall($1,$3);
 	};
 call_parameters :
 	/* empty */
+	{
+	$$=NULL;
+	}
 	|
-	expr_list ;
+	expr_list
+	{
+	$$=$1;
+	}
+	;
 type :
 	INTEGER
 	{
@@ -262,6 +268,8 @@ statement:
 	compound_statement
 	|
 	method_call
+
+
 	|
 	IF expr THEN statement
 	|
@@ -273,7 +281,7 @@ statement:
 	{
 		Queue * tempQueue = $3 ;
 		while (tempQueue->front){
-			search_variable(front) ;
+			search_variable(tempQueue->front->key) ;
 			deQueue(tempQueue) ;
 		}
 	}
@@ -284,6 +292,7 @@ variable:
 expr_list:
 	expr{
 		listeDescripteursTypes *head = NULL ;
+		head = (listeDescripteursTypes*)malloc(sizeof(listeDescripteursTypes));
 		head->info= nouveau($1) ;
 		head->suivant= NULL ;
 		$$=head ;
@@ -291,9 +300,13 @@ expr_list:
 	|
 	expr SEPARATOR_LIST expr_list
 	{
-		listeDescripteursTypes * list1 = $1;
-		concatenateTypeList(list1,$3) ;
-		$$=list1 ;
+
+		listeDescripteursTypes *head = NULL ;
+		head = (listeDescripteursTypes*)malloc(sizeof(listeDescripteursTypes));
+		head->info= nouveau($1) ;
+		head->suivant= NULL ;
+		concatenateTypeList(head,$3) ;
+		$$=head ;
 	};
 
 expr:
