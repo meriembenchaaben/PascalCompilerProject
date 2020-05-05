@@ -1,33 +1,34 @@
 %error-verbose
 
 %{
-#define YYDEBUG 1
-#include "pascal.tab.h"
+//#define YYDEBUG 1
 #include "semantic.h"
+
 #include <stdio.h>
 #include "semantic2.c"
+#include "pascal.tab.h"
+
 int yyerror(char const *msg);
 int yylex(void);
 extern int line_num;
 extern FILE *yyin;
 extern int number_errors ;
 int currFunctionIndex ;
+#include "pascal.tab.h"
 
 %}
+
 
 %union
 {
         int number;
         char *string;
         double fnumber;
-        boolean_ {false  , true }  bool ;
+        boolean_  bool ;
         struct Queue * queue ;
         //struct QueueType * queueType ;
         struct listeDescripteursTypes * listType ;
-        typePossible  {
-    	tChar, tShort, tInt, tLong, tFloat, tDouble,tString,
-    	tTableau, tFonction, tProcedure,tProgram,tBool
-	} type_;
+        typePossible  type_;
 }
 %token  <fnumber>EXP
 %token  <string>STR ID PROCEDURE FUNCTION ARRAY INTEGER DOUBLE STRING
@@ -35,10 +36,10 @@ int currFunctionIndex ;
 %token <bool>Bool
 %token PROGRAM MC_BEGIN END VAR OF DOTS IF THEN ELSE WHILE DO NOT SEPARATOR_LINE SEPARATOR_LIST SEPARATOR_DEAD TYPIFIER BRACKET_O BRACKET_C SBRACKET_O SBRACKET_C _BUILTIN_READ _BUILTIN_WRITE ASSIGN
 %token error COMMENT Number o_plus o_minus o_lor o_mul o_div o_mod o_land cmp_l cmp_leq cmp_eq cmp_neq cmp_g cmp_geq  OPPAFFECT
-%type <listType> arguments declaration declarations_list parameters_list expr_list
+%type <listType> arguments declaration declarations_list parameters_list expr_list call_parameters
 %type <queue> identifier_list
 %type <string> type variable
-%type <type_> term expr factor simple_expr
+%type <type_> term expr factor simple_expr method_call statement
 %start file
 
 %%
@@ -49,8 +50,11 @@ file:
 		//printCurrentDict() ;
 
 		if(number_errors)
+		{
+		printf("number of errors = %d\n",number_errors) ;
 		return 1 ;
-		fprintf(stderr, "#program accepted by interpreter\n");
+		}
+		printf( "#program accepted by interpreter\n");
 		return (0) ;
 
 	} ;
@@ -214,12 +218,19 @@ method_header :
 method_call :
 	ID BRACKET_O call_parameters BRACKET_C
 	{
-		//checkFunction($1,$3) ;
+		$$=verifMethodCall($1,$3);
 	};
 call_parameters :
 	/* empty */
+	{
+	$$=NULL;
+	}
 	|
-	expr_list ;
+	expr_list
+	{
+	$$=$1;
+	}
+	;
 type :
 	INTEGER
 	{
@@ -243,47 +254,80 @@ statement_list:
 statement:
 	variable ASSIGN expr
 	{
-		/*ENTREE_DICO * variable  = search_variable($1) ;
+		ENTREE_DICO * variable  = search_variable($1) ;
 		if (variable)
 		{
-			if(memeType($3,variable->type)
+			if(memeType(nouveau($3),&variable->type))
 			{
+				variable->initialised = 1 ;
 				variable->used = 1 ;
 			}
 			else
 			{
-				nberrors++ ;
+				number_errors++ ;
 				fprintf(stderr,"Type variable incompatible \n");
 			}
 
-		}*/
+		}
+		else {
+			number_errors ++ ;
+			fprintf(stderr,"Variable not found \n");
+		}
+
+
 	}
 	|
-	compound_statement
+	compound_statement{
+
+	}
 	|
 	method_call
+	{
+
+	}
 	|
 	IF expr THEN statement
+	{
+
+	}
 	|
 	IF expr THEN statement ELSE statement
+	{
+
+	}
 	|
 	WHILE expr DO statement
+	{
+
+	}
 	|
 	_BUILTIN_READ BRACKET_O identifier_list BRACKET_C
 	{
 		Queue * tempQueue = $3 ;
 		while (tempQueue->front){
-			search_variable(front) ;
+			search_variable(tempQueue->front->key) ;
 			deQueue(tempQueue) ;
 		}
+
 	}
 	|
-	_BUILTIN_WRITE BRACKET_O expr_list BRACKET_C ;
+	_BUILTIN_WRITE BRACKET_O expr_list BRACKET_C
+	{
+
+	};
 variable:
+	{
+		ENTREE_DICO * variable  = search_variable($1) ;
+		if (variable)
+		{
+			variable->initialised = 1 ;
+		}
+	}
 	ID {$$=$1};
 expr_list:
 	expr{
 		listeDescripteursTypes *head = NULL ;
+		head = (listeDescripteursTypes*)malloc(sizeof(listeDescripteursTypes));
 		head->info= nouveau($1) ;
 		head->suivant= NULL ;
 		$$=head ;
@@ -291,9 +335,13 @@ expr_list:
 	|
 	expr SEPARATOR_LIST expr_list
 	{
-		listeDescripteursTypes * list1 = $1;
-		concatenateTypeList(list1,$3) ;
-		$$=list1 ;
+
+		listeDescripteursTypes *head = NULL ;
+		head = (listeDescripteursTypes*)malloc(sizeof(listeDescripteursTypes));
+		head->info= nouveau($1) ;
+		head->suivant= NULL ;
+		concatenateTypeList(head,$3) ;
+		$$=head ;
 	};
 
 expr:
@@ -304,22 +352,39 @@ expr:
 	|
 	simple_expr cmp_leq simple_expr
 	{
-		if($1==tString&&$3==tString)
-			$$= tBool;
-		if(($1==tInt || $1==tDouble)&& ($3==tInt || $3==tDouble))
-			$$= tBool;
 
+		$$=verifCompare($1,$3) ;
+	}
+	|
+	method_call
+	{
+		$$ = $1 ;
 	}
 	|
 	simple_expr cmp_geq simple_expr
+	{
+		$$=verifCompare($1,$3) ;
+	}
 	|
 	simple_expr cmp_eq  simple_expr
+	{
+		$$=verifCompare($1,$3) ;
+	}
 	|
 	simple_expr cmp_neq simple_expr
+	{
+		$$=verifCompare($1,$3) ;
+	}
 	|
 	simple_expr cmp_l   simple_expr
+	{
+		$$=verifCompare($1,$3) ;
+	}
 	|
-	simple_expr cmp_g   simple_expr ;
+	simple_expr cmp_g   simple_expr{
+		$$=verifCompare($1,$3) ;
+	}
+	;
 simple_expr:
 	term
 	{
@@ -426,8 +491,15 @@ factor:
 		ENTREE_DICO * variable  = search_variable($1) ;
 		if (variable)
 		{
+			if(!variable->initialised)
+			{
+				number_errors ++ ;
+				fprintf(stderr,"vriable non initialisé\n") ;
+			}
+			variable->used = 1 ;
 			$$= variable->type.classe ;
 		}
+		$$= tvoid ;
 		//probablement va causer des probs
 	}
 	|

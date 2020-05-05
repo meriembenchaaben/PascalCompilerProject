@@ -1,6 +1,8 @@
-program id ; 
-var x : integer ;
+program id ;
+var i:integer ;
+function x(a : integer ;b:double):integer ;
 begin 
+end ;
 begin 
-end 
-end .  
+i :=x(4,4.2)
+end . 

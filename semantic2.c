@@ -37,6 +37,7 @@ const char* getTypeName(typePossible type)
       case tProgram: return "tProgram";
       case tString: return "tString";
       case tBool: return "tBool";
+      case tVoid: return "tVoid";
    }
 }
 const typePossible getTypeByName(char *  type)
@@ -54,6 +55,7 @@ const typePossible getTypeByName(char *  type)
       if( strcmp( "program",type)==0 ) return tProgram;
       if( strcmp( "string",type)==0 ) return tString;
       if( strcmp( "bool",type)==0 ) return tBool;
+      if( strcmp( "void",type)==0 ) return tVoid;
 
 }
 typedef
@@ -130,6 +132,7 @@ struct {
     descripteurType type;
     int used  ;
     int declarationLine ;
+    int initialised ;
 } ENTREE_DICO;
 
 #define TAILLE_INITIALE_DICO 200
@@ -138,8 +141,8 @@ struct {
 ENTREE_DICO * dico ;
 int maxDico, sommet, base;
 void erreurFatale(char *message) {
-    fprintf(stderr, "%s\n", message);
-    exit(-1);
+    fprintf(stderr, "Erreur fatale !!!!!!! :\n%s\n", message);
+    exit(1);
 }
 void creerDico() {
     maxDico = TAILLE_INITIALE_DICO;
@@ -155,11 +158,12 @@ void agrandirDico(void) {
     if (dico == NULL)
         erreurFatale("Erreur interne (pas assez de mémoire)");
 }
-
+void printCurrentDict() ;
 int primitiveType (descripteurType  type){
-    if ((type.classe==tChar)|| (type.classe==tShort)||( type.classe==tInt)||(type.classe== tLong)|| (type.classe==tFloat));
+    if ((type.classe==tChar)|| (type.classe==tShort)||( type.classe==tInt)||(type.classe== tLong)|| (type.classe==tFloat))
         return 1 ;
-    if ((type.classe==tDouble)||(type.classe==tTableau)||(type.classe==tProgram)||(type.classe==tString)||(type.classe==tBool));
+
+    if ((type.classe==tDouble)||(type.classe==tTableau)||(type.classe==tProgram)||(type.classe==tString)||(type.classe==tBool))
         return 1;
     return 0;
 }
@@ -173,13 +177,39 @@ int verifAjout(char *identif, descripteurType  type){
     return -1 ;
 }
 
+typePossible verifMethodCall(char * identif , listeDescripteursTypes * liste ){
+    int i ;
+    for (i=base ;i<sommet;i++)
+        if (!strcmp(identif,dico[i].identif)){
+
+            if (!primitiveType(dico[i].type)){
+
+                if (dico[i].type.classe ==tProcedure){
+
+                    if (memeListeTypes(dico[i].type.attributs.casProcedure.typesArguments,liste)){
+                        return tVoid;
+                    }
+                }
+                else if (dico[i].type.classe ==tFonction){
+                    if (memeListeTypes(dico[i].type.attributs.casFonction.typesArguments,liste)){
+                        return dico[i].type.attributs.casFonction.typeResultat->classe;
+                    }
+                }
+            }
+        }
+    //printCurrentDict();
+    printf("appel methode incorrect \n");
+    number_errors ++ ;
+    return tVoid;
+}
+
 int ajouterEntree(char *identif, descripteurType type,int declarationLine) {
     if (sommet >= maxDico)
         agrandirDico();
     dico[sommet].identif = malloc(strlen(identif) + 1);
     if (dico[sommet].identif == NULL)
         {
-            erreurFatale("Erreur interne (pas assez de mémoire)");
+            fprintf(stderr,"Erreur interne (pas assez de mémoire)");
             number_errors ++ ;
             return -1 ;
         }
@@ -187,7 +217,7 @@ int ajouterEntree(char *identif, descripteurType type,int declarationLine) {
     if(dec !=-1)
     {
         number_errors++ ;
-        fprintf(stderr,"Identificateur %s dupliqué a la ligne %d declare deja a la ligne %d\n",identif,declarationLine,dec);
+        printf("Identificateur %s dupliqué a la ligne %d declare deja a la ligne %d\n",identif,declarationLine,dec);
         return -1;
     }
     strcpy(dico[sommet].identif, identif);
@@ -208,6 +238,19 @@ void printCurrentDict(){
     for (i= base;i<sommet;i++)
     {
         printf("L'entree num %d a l'identificateur %s et le type %s declaré a la ligne %d\n",i-base+1,dico[i].identif,getTypeName(dico[i].type.classe),dico[i].declarationLine) ;
+        if(dico[i].type.classe == tProcedure || dico[i].type.classe==tFonction)
+        {
+            int j =1 ;
+            listeDescripteursTypes * argHead ;
+            if(dico[i].type.classe == tProcedure )
+            argHead = dico[i].type.attributs.casProcedure.typesArguments ;
+            else argHead = dico[i].type.attributs.casFonction.typesArguments ;
+            while (argHead!=NULL)
+            {
+                printf("Argument num %d de type %s\n",j,getTypeName(argHead->info->classe));
+                argHead= argHead->suivant ;
+            }
+        }
     }
 }
 void upScope(){
@@ -231,7 +274,16 @@ void downScope(){
     sommet = base ;
     base = 0 ;
 }
+typePossible verifCompare(typePossible a,typePossible b){
 
+    if(a==tString&&a==tString)
+        return tBool;
+    if((a==tInt || a==tDouble)&& (b==tInt || b==tDouble))
+        return tBool;
+    number_errors ++ ;
+    fprintf(stderr,"membres de comparaison n'ont pas de types compatibles\n") ;
+    return tVoid ;
+}
 /*********************************************************************************************\
 \*********************************************************************************************/
 

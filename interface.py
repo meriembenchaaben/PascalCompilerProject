@@ -52,7 +52,7 @@ def menu():
     stdout, stderr = out.communicate()
     if out.returncode == 1 :
         resultsTextEdit.setTextColor(QtGui.QColor(255,0,0))
-    resultsTextEdit.setText( stdout.decode("utf-8"))
+    resultsTextEdit.setText(stdout.decode("utf-8"))
 
 
 browseButton.clicked.connect(setFileToCompile)
