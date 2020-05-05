@@ -104,16 +104,19 @@ typedef union YYSTYPE
         int number;
         char *string;
         double fnumber;
-        boolean bool ;
+        boolean_ {false  , true }  bool ;
         struct Queue * queue ;
         //struct QueueType * queueType ;
         struct listeDescripteursTypes * listType ;
-        typePossible type_;
+        typePossible  {
+    	tChar, tShort, tInt, tLong, tFloat, tDouble,tString,
+    	tTableau, tFonction, tProcedure,tProgram,tBool
+	} type_;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 117 "pascal.tab.h"
+#line 120 "pascal.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

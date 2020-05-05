@@ -468,13 +468,14 @@ char *yytext;
 
 #line 3 "pascal.lex"
 #include "pascal.tab.h"
+#include "semantic.h"
 int yylex();
 void yyerror(const char *s);
 int line_num = 1;
 int comment_caller;
 #include <string.h>
 
-#line 478 "lex.yy.c"
+#line 479 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -625,9 +626,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 31 "pascal.lex"
+#line 32 "pascal.lex"
 
-#line 631 "lex.yy.c"
+#line 632 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -712,14 +713,14 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 32 "pascal.lex"
+#line 33 "pascal.lex"
 {
     comment_caller = INITIAL;
     BEGIN(comment);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 35 "pascal.lex"
+#line 36 "pascal.lex"
 {
 			comment_caller = foo;
 			BEGIN(comment);
@@ -727,282 +728,282 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 39 "pascal.lex"
+#line 40 "pascal.lex"
 /* eat anything that's not a '*' */
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 40 "pascal.lex"
+#line 41 "pascal.lex"
 /* eat up '*'s not followed by '/'s */
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 41 "pascal.lex"
+#line 42 "pascal.lex"
 ++line_num;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 42 "pascal.lex"
+#line 43 "pascal.lex"
 BEGIN(comment_caller);
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 43 "pascal.lex"
+#line 44 "pascal.lex"
 /* pas d'actions */
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 44 "pascal.lex"
+#line 45 "pascal.lex"
 {line_num++;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 45 "pascal.lex"
+#line 46 "pascal.lex"
 {  yylval.number=atoi(yytext);return NUM; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 46 "pascal.lex"
+#line 47 "pascal.lex"
 { yylval.fnumber=atof(yytext);return EXP; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 47 "pascal.lex"
+#line 48 "pascal.lex"
 { yylval.string=strdup(yytext) ;  return STR; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 48 "pascal.lex"
+#line 49 "pascal.lex"
 {return PROGRAM;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 49 "pascal.lex"
+#line 50 "pascal.lex"
 {return MC_BEGIN;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 50 "pascal.lex"
+#line 51 "pascal.lex"
 {return END;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 51 "pascal.lex"
+#line 52 "pascal.lex"
 {return VAR;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 52 "pascal.lex"
+#line 53 "pascal.lex"
 {return ARRAY;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 53 "pascal.lex"
+#line 54 "pascal.lex"
 {return DOTS;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 54 "pascal.lex"
+#line 55 "pascal.lex"
 {return OF;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 55 "pascal.lex"
+#line 56 "pascal.lex"
 {yylval.string=strdup(yytext) ;return INTEGER;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 56 "pascal.lex"
+#line 57 "pascal.lex"
 {yylval.string=strdup(yytext) ;return DOUBLE;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 57 "pascal.lex"
+#line 58 "pascal.lex"
 {yylval.string=strdup(yytext) ;return STRING;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 58 "pascal.lex"
+#line 59 "pascal.lex"
 {yylval.string=strdup(yytext) ;return FUNCTION;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 59 "pascal.lex"
+#line 60 "pascal.lex"
 {yylval.string=strdup(yytext) ;return PROCEDURE;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 60 "pascal.lex"
+#line 61 "pascal.lex"
 {return IF;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 61 "pascal.lex"
+#line 62 "pascal.lex"
 {return THEN;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 62 "pascal.lex"
+#line 63 "pascal.lex"
 {return ELSE;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 63 "pascal.lex"
+#line 64 "pascal.lex"
 {return WHILE;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 64 "pascal.lex"
+#line 65 "pascal.lex"
 {return DO;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 65 "pascal.lex"
+#line 66 "pascal.lex"
 {return NOT;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 66 "pascal.lex"
-{if (!strcmp(yytext,"True"))yylval.bool=true ;
-                                else yybal.bool=false ;
+#line 67 "pascal.lex"
+{if (!strcmp(yytext,"True")) {yylval.bool=(int) boolean_.true ;}
+                                else { yylval.bool= (int) boolean_.false ;}
                                 return Bool ; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 69 "pascal.lex"
+#line 70 "pascal.lex"
 {return SEPARATOR_LIST;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 70 "pascal.lex"
+#line 71 "pascal.lex"
 {return SEPARATOR_LINE;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 71 "pascal.lex"
+#line 72 "pascal.lex"
 {return SEPARATOR_DEAD;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 72 "pascal.lex"
+#line 73 "pascal.lex"
 {return TYPIFIER;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 73 "pascal.lex"
+#line 74 "pascal.lex"
 {return BRACKET_O;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 74 "pascal.lex"
+#line 75 "pascal.lex"
 {return BRACKET_C;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 75 "pascal.lex"
+#line 76 "pascal.lex"
 {return SBRACKET_O;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 76 "pascal.lex"
+#line 77 "pascal.lex"
 {return SBRACKET_C;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 77 "pascal.lex"
+#line 78 "pascal.lex"
 return o_plus;
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 78 "pascal.lex"
+#line 79 "pascal.lex"
 return o_minus;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 79 "pascal.lex"
+#line 80 "pascal.lex"
 return o_lor;
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 80 "pascal.lex"
+#line 81 "pascal.lex"
 return o_mul;
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 81 "pascal.lex"
+#line 82 "pascal.lex"
 return o_div;
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 82 "pascal.lex"
+#line 83 "pascal.lex"
 return o_mod;
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 83 "pascal.lex"
+#line 84 "pascal.lex"
 return o_land;
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 84 "pascal.lex"
+#line 85 "pascal.lex"
 return cmp_l;
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 85 "pascal.lex"
+#line 86 "pascal.lex"
 return cmp_leq;
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 86 "pascal.lex"
+#line 87 "pascal.lex"
 return cmp_eq;
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 87 "pascal.lex"
+#line 88 "pascal.lex"
 return cmp_neq;
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 88 "pascal.lex"
+#line 89 "pascal.lex"
 return cmp_g;
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 89 "pascal.lex"
+#line 90 "pascal.lex"
 return cmp_geq;
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 90 "pascal.lex"
+#line 91 "pascal.lex"
 {return _BUILTIN_READ;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 91 "pascal.lex"
+#line 92 "pascal.lex"
 {return _BUILTIN_WRITE;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 92 "pascal.lex"
+#line 93 "pascal.lex"
 return ASSIGN;
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 93 "pascal.lex"
+#line 94 "pascal.lex"
 ++line_num ;
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 94 "pascal.lex"
+#line 95 "pascal.lex"
 {yylval.string=strdup(yytext) ;return ID ;}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 98 "pascal.lex"
+#line 99 "pascal.lex"
 ECHO;
 	YY_BREAK
-#line 1006 "lex.yy.c"
+#line 1007 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(comment):
 case YY_STATE_EOF(foo):
@@ -1890,6 +1891,6 @@ int main()
 	return 0;
 	}
 #endif
-#line 98 "pascal.lex"
+#line 99 "pascal.lex"
 
 

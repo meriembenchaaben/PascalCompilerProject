@@ -7,6 +7,6 @@ enum {
     tChar, tShort, tInt, tLong, tFloat, tDouble,tString,
     tTableau, tFonction, tProcedure,tProgram,tBool
 } typePossible;
-typedef enum {false, true} boolean;
+typedef enum {false , true } boolean_;
 
 #endif

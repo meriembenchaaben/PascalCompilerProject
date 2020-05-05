@@ -177,16 +177,19 @@ typedef union YYSTYPE
         int number;
         char *string;
         double fnumber;
-        boolean bool ;
+        boolean_ {false  , true }  bool ;
         struct Queue * queue ;
         //struct QueueType * queueType ;
         struct listeDescripteursTypes * listType ;
-        typePossible type_;
+        typePossible  {
+    	tChar, tShort, tInt, tLong, tFloat, tDouble,tString,
+    	tTableau, tFonction, tProcedure,tProgram,tBool
+	} type_;
 
 
 
 /* Line 214 of yacc.c  */
-#line 190 "pascal.tab.c"
+#line 193 "pascal.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -198,7 +201,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 202 "pascal.tab.c"
+#line 205 "pascal.tab.c"
 
 #ifdef short
 # undef short
@@ -511,13 +514,13 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    44,    44,    55,    55,    71,    78,    87,    91,    96,
-     101,   109,   113,   118,   143,   170,   173,   173,   179,   190,
-     201,   212,   216,   219,   221,   226,   231,   232,   235,   237,
-     239,   241,   259,   261,   263,   265,   267,   269,   278,   280,
-     282,   289,   297,   302,   311,   313,   315,   317,   319,   321,
-     326,   341,   354,   363,   368,   381,   391,   396,   406,   411,
-     416,   421,   431,   436
+       0,    47,    47,    58,    58,    74,    81,    90,    94,    99,
+     104,   112,   116,   121,   146,   173,   176,   176,   182,   193,
+     204,   215,   219,   222,   224,   229,   234,   235,   238,   240,
+     242,   244,   262,   264,   266,   268,   270,   272,   281,   283,
+     285,   292,   300,   305,   314,   316,   318,   320,   322,   324,
+     329,   344,   357,   366,   371,   384,   394,   399,   409,   414,
+     419,   424,   434,   439
 };
 #endif
 
@@ -1507,7 +1510,7 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 45 "pascal.y"
+#line 48 "pascal.y"
     {
 		//printCurrentDict() ;
 
@@ -1522,7 +1525,7 @@ yyreduce:
   case 3:
 
 /* Line 1455 of yacc.c  */
-#line 55 "pascal.y"
+#line 58 "pascal.y"
     {
 		ajouterEntree((yyvsp[(2) - (2)].string),*nouveau(getTypeByName("program")) ,line_num) ;
 	;}
@@ -1531,7 +1534,7 @@ yyreduce:
   case 4:
 
 /* Line 1455 of yacc.c  */
-#line 58 "pascal.y"
+#line 61 "pascal.y"
     {
 		//create main node
 		//node * main = createNode($2,$1,NULL) ;
@@ -1549,7 +1552,7 @@ yyreduce:
   case 5:
 
 /* Line 1455 of yacc.c  */
-#line 72 "pascal.y"
+#line 75 "pascal.y"
     {
 		Queue * temp = createQueue() ;
 		enQueue(temp,(yyvsp[(1) - (1)].string));
@@ -1560,7 +1563,7 @@ yyreduce:
   case 6:
 
 /* Line 1455 of yacc.c  */
-#line 79 "pascal.y"
+#line 82 "pascal.y"
     {
 		Queue * temp = createQueue() ;
 		enQueue(temp,(yyvsp[(1) - (3)].string));
@@ -1572,7 +1575,7 @@ yyreduce:
   case 7:
 
 /* Line 1455 of yacc.c  */
-#line 87 "pascal.y"
+#line 90 "pascal.y"
     {
 		(yyval.listType) = NULL ;
 	;}
@@ -1581,7 +1584,7 @@ yyreduce:
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 92 "pascal.y"
+#line 95 "pascal.y"
     {
 		(yyval.listType) = NULL
 	;}
@@ -1590,7 +1593,7 @@ yyreduce:
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 97 "pascal.y"
+#line 100 "pascal.y"
     {
 		(yyval.listType) = (yyvsp[(1) - (1)].listType) ;
 	;}
@@ -1599,7 +1602,7 @@ yyreduce:
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 102 "pascal.y"
+#line 105 "pascal.y"
     {
 		listeDescripteursTypes * list1 = (yyvsp[(1) - (3)].listType);
 		concatenateTypeList(list1,(yyvsp[(3) - (3)].listType)) ;
@@ -1610,7 +1613,7 @@ yyreduce:
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 109 "pascal.y"
+#line 112 "pascal.y"
     {
 		(yyval.listType) = NULL ;
 	;}
@@ -1619,7 +1622,7 @@ yyreduce:
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 114 "pascal.y"
+#line 117 "pascal.y"
     {
 		(yyval.listType) = (yyvsp[(1) - (1)].listType) ;
 	;}
@@ -1628,7 +1631,7 @@ yyreduce:
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 119 "pascal.y"
+#line 122 "pascal.y"
     {
 		listeDescripteursTypes *head = NULL ;
 		Queue * tempQueue = (yyvsp[(1) - (3)].queue) ;
@@ -1657,7 +1660,7 @@ yyreduce:
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 144 "pascal.y"
+#line 147 "pascal.y"
     {
 		listeDescripteursTypes *head  = NULL ;
 		Queue * tempQueue = (yyvsp[(1) - (10)].queue) ;
@@ -1688,7 +1691,7 @@ yyreduce:
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 173 "pascal.y"
+#line 176 "pascal.y"
     {
 	upScope() ;
 	;}
@@ -1697,7 +1700,7 @@ yyreduce:
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 180 "pascal.y"
+#line 183 "pascal.y"
     {
 		//node * variables = concatenateSiblingLists($1->children,$2) ;
 		//printCurrentDict();
@@ -1712,7 +1715,7 @@ yyreduce:
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 191 "pascal.y"
+#line 194 "pascal.y"
     {
 
 
@@ -1727,7 +1730,7 @@ yyreduce:
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 202 "pascal.y"
+#line 205 "pascal.y"
     {
 		descripteurType * tempType =nouveau(getTypeByName((yyvsp[(1) - (8)].string))) ;
 		descripteurType * tempReturnType=nouveau(getTypeByName((yyvsp[(7) - (8)].string)));
@@ -1742,7 +1745,7 @@ yyreduce:
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 213 "pascal.y"
+#line 216 "pascal.y"
     {
 		//checkFunction($1,$3) ;
 	;}
@@ -1751,7 +1754,7 @@ yyreduce:
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 222 "pascal.y"
+#line 225 "pascal.y"
     {
 		(yyval.string) = (yyvsp[(1) - (1)].string) ;
 	;}
@@ -1760,7 +1763,7 @@ yyreduce:
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 227 "pascal.y"
+#line 230 "pascal.y"
     {
 		(yyval.string) = (yyvsp[(1) - (1)].string) ;
 	;}
@@ -1769,7 +1772,7 @@ yyreduce:
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 242 "pascal.y"
+#line 245 "pascal.y"
     {
 		/*ENTREE_DICO * variable  = search_variable($1) ;
 		if (variable)
@@ -1791,7 +1794,7 @@ yyreduce:
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 270 "pascal.y"
+#line 273 "pascal.y"
     {
 		Queue * tempQueue = (yyvsp[(3) - (4)].queue) ;
 		while (tempQueue->front){
@@ -1804,14 +1807,14 @@ yyreduce:
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 280 "pascal.y"
+#line 283 "pascal.y"
     {(yyval.string)=(yyvsp[(1) - (1)].string);}
     break;
 
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 282 "pascal.y"
+#line 285 "pascal.y"
     {
 		listeDescripteursTypes *head = NULL ;
 		head->info= nouveau((yyvsp[(1) - (1)].type_)) ;
@@ -1823,7 +1826,7 @@ yyreduce:
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 290 "pascal.y"
+#line 293 "pascal.y"
     {
 		listeDescripteursTypes * list1 = (yyvsp[(1) - (3)].type_);
 		concatenateTypeList(list1,(yyvsp[(3) - (3)].listType)) ;
@@ -1834,7 +1837,7 @@ yyreduce:
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 298 "pascal.y"
+#line 301 "pascal.y"
     {
 		(yyval.type_)= (yyvsp[(1) - (1)].type_) ;
 	;}
@@ -1843,7 +1846,7 @@ yyreduce:
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 303 "pascal.y"
+#line 306 "pascal.y"
     {
 		if((yyvsp[(1) - (3)].type_)==tString&&(yyvsp[(3) - (3)].type_)==tString)
 			(yyval.type_)= tBool;
@@ -1856,7 +1859,7 @@ yyreduce:
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 322 "pascal.y"
+#line 325 "pascal.y"
     {
 		(yyval.type_)=(yyvsp[(1) - (1)].type_)
 	;}
@@ -1865,7 +1868,7 @@ yyreduce:
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 327 "pascal.y"
+#line 330 "pascal.y"
     {
 		if((yyvsp[(1) - (3)].type_)==tInt&&(yyvsp[(3) - (3)].type_)==tInt)
 			(yyval.type_) = tInt;
@@ -1884,7 +1887,7 @@ yyreduce:
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 342 "pascal.y"
+#line 345 "pascal.y"
     {
 		if((yyvsp[(1) - (3)].type_)==tInt&&(yyvsp[(3) - (3)].type_)==tInt)
 			(yyval.type_) = tInt;
@@ -1901,7 +1904,7 @@ yyreduce:
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 355 "pascal.y"
+#line 358 "pascal.y"
     {
 		if((yyvsp[(1) - (3)].type_)==tBool&&(yyvsp[(3) - (3)].type_)==tBool)
 			(yyval.type_) = tBool;
@@ -1914,7 +1917,7 @@ yyreduce:
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 364 "pascal.y"
+#line 367 "pascal.y"
     {
 		(yyval.type_)=(yyvsp[(1) - (1)].type_) ;
 	;}
@@ -1923,7 +1926,7 @@ yyreduce:
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 369 "pascal.y"
+#line 372 "pascal.y"
     {
 		if((yyvsp[(1) - (3)].type_)==tInt&&(yyvsp[(3) - (3)].type_)==tInt)
 			(yyval.type_) = tInt;
@@ -1940,7 +1943,7 @@ yyreduce:
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 382 "pascal.y"
+#line 385 "pascal.y"
     {
 		if((yyvsp[(1) - (3)].type_)==tBool&&(yyvsp[(3) - (3)].type_)==tBool)
 			(yyval.type_) = tBool;
@@ -1954,7 +1957,7 @@ yyreduce:
   case 56:
 
 /* Line 1455 of yacc.c  */
-#line 392 "pascal.y"
+#line 395 "pascal.y"
     {
 		(yyval.type_)=tDouble ;
 	;}
@@ -1963,7 +1966,7 @@ yyreduce:
   case 57:
 
 /* Line 1455 of yacc.c  */
-#line 397 "pascal.y"
+#line 400 "pascal.y"
     {
 		if((yyvsp[(1) - (3)].type_)!=tInt||(yyvsp[(3) - (3)].type_)!=tInt)
 		{
@@ -1977,7 +1980,7 @@ yyreduce:
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 407 "pascal.y"
+#line 410 "pascal.y"
     {
 		(yyval.type_)=tInt ;
 	;}
@@ -1986,7 +1989,7 @@ yyreduce:
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 412 "pascal.y"
+#line 415 "pascal.y"
     {
 		(yyval.type_)=tDouble ;
 	;}
@@ -1995,7 +1998,7 @@ yyreduce:
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 417 "pascal.y"
+#line 420 "pascal.y"
     {
 		(yyval.type_)=tString ;
 	;}
@@ -2004,7 +2007,7 @@ yyreduce:
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 422 "pascal.y"
+#line 425 "pascal.y"
     {
 		ENTREE_DICO * variable  = search_variable((yyvsp[(1) - (1)].string)) ;
 		if (variable)
@@ -2018,7 +2021,7 @@ yyreduce:
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 432 "pascal.y"
+#line 435 "pascal.y"
     {
 		(yyval.type_)=(yyvsp[(2) - (3)].type_) ;
 	;}
@@ -2027,7 +2030,7 @@ yyreduce:
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 437 "pascal.y"
+#line 440 "pascal.y"
     {
 		(yyval.type_)=tBool ;
 	;}
@@ -2036,7 +2039,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2040 "pascal.tab.c"
+#line 2043 "pascal.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2248,7 +2251,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 440 "pascal.y"
+#line 443 "pascal.y"
 
 
 #include <stdlib.h>

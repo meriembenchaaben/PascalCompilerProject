@@ -1,6 +1,7 @@
 %x comment foo
 %{
 #include "pascal.tab.h"
+#include "semantic.h"
 int yylex();
 void yyerror(const char *s);
 int line_num = 1;
@@ -63,8 +64,8 @@ COMMENT_LINE       "//".*[\n]
 "while"     		{return WHILE;}
 "do"        		{return DO;}
 "not"       		{return NOT;}
-"True|False"                   {if (!strcmp(yytext,"True"))yylval.bool=true ;
-                                else yybal.bool=false ;
+"True|False"                   {if (!strcmp(yytext,"True")) {yylval.bool=(int) boolean_.true ;}
+                                else { yylval.bool= (int) boolean_.false ;}
                                 return Bool ; }
 ","         {return SEPARATOR_LIST;}
 ";"         {return SEPARATOR_LINE;}

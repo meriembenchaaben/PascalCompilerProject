@@ -20,11 +20,14 @@ int currFunctionIndex ;
         int number;
         char *string;
         double fnumber;
-        boolean bool ;
+        boolean_ {false  , true }  bool ;
         struct Queue * queue ;
         //struct QueueType * queueType ;
         struct listeDescripteursTypes * listType ;
-        typePossible type_;
+        typePossible  {
+    	tChar, tShort, tInt, tLong, tFloat, tDouble,tString,
+    	tTableau, tFonction, tProcedure,tProgram,tBool
+	} type_;
 }
 %token  <fnumber>EXP
 %token  <string>STR ID PROCEDURE FUNCTION ARRAY INTEGER DOUBLE STRING
