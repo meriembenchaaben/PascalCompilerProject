@@ -181,6 +181,7 @@ typePossible verifMethodCall(char * identif , listeDescripteursTypes * liste ){
     int i ;
     for (i=base ;i<sommet;i++)
         if (!strcmp(identif,dico[i].identif)){
+<<<<<<< HEAD
 
             if (!primitiveType(dico[i].type)){
 
@@ -193,12 +194,27 @@ typePossible verifMethodCall(char * identif , listeDescripteursTypes * liste ){
                 else if (dico[i].type.classe ==tFonction){
                     if (memeListeTypes(dico[i].type.attributs.casFonction.typesArguments,liste)){
                         return dico[i].type.attributs.casFonction.typeResultat->classe;
+=======
+            if ((!primitiveType(dico[i].type)){
+                if (dico[i].type->classe ==tProcedure){
+                    if memeListeTypes(dico[i].type->attributs.casProcedure.typesArguments,liste){
+                        return tVoid;
+                    }
+                }
+                else if (dico[i].type->classe ==tFonction){
+                    if memeListeTypes(dico[i].type->attributs.casFonction.typesArguments,liste){
+                        return dico[i].type->attributs.casFonction->typeResultat;
+>>>>>>> master
                     }
                 }
             }
         }
+<<<<<<< HEAD
     //printCurrentDict();
     printf("appel methode incorrect \n");
+=======
+    erreurFatale("appel methode incorrect \n");
+>>>>>>> master
     number_errors ++ ;
     return tVoid;
 }

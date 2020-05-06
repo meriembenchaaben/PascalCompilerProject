@@ -469,7 +469,10 @@ char *yytext;
 #line 3 "pascal.lex"
 #include "semantic.h"
 #include "pascal.tab.h"
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 int yylex();
 void yyerror(const char *s);
 int line_num = 1;
@@ -864,144 +867,256 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 68 "pascal.lex"
+=======
+#line 67 "pascal.lex"
+>>>>>>> master
 {if (!strcmp(yytext,"True")) {yylval.bool=true ;}
                                 else { yylval.bool= false ;}
                                 return Bool ; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 72 "pascal.lex"
+=======
+#line 71 "pascal.lex"
+>>>>>>> master
 {return SEPARATOR_LIST;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 73 "pascal.lex"
+=======
+#line 72 "pascal.lex"
+>>>>>>> master
 {return SEPARATOR_LINE;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 74 "pascal.lex"
+=======
+#line 73 "pascal.lex"
+>>>>>>> master
 {return SEPARATOR_DEAD;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 75 "pascal.lex"
+=======
+#line 74 "pascal.lex"
+>>>>>>> master
 {return TYPIFIER;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 76 "pascal.lex"
+=======
+#line 75 "pascal.lex"
+>>>>>>> master
 {return BRACKET_O;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 77 "pascal.lex"
+=======
+#line 76 "pascal.lex"
+>>>>>>> master
 {return BRACKET_C;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 78 "pascal.lex"
+=======
+#line 77 "pascal.lex"
+>>>>>>> master
 {return SBRACKET_O;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 79 "pascal.lex"
+=======
+#line 78 "pascal.lex"
+>>>>>>> master
 {return SBRACKET_C;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 80 "pascal.lex"
+=======
+#line 79 "pascal.lex"
+>>>>>>> master
 return o_plus;
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 81 "pascal.lex"
+=======
+#line 80 "pascal.lex"
+>>>>>>> master
 return o_minus;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 82 "pascal.lex"
+=======
+#line 81 "pascal.lex"
+>>>>>>> master
 return o_lor;
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 83 "pascal.lex"
+=======
+#line 82 "pascal.lex"
+>>>>>>> master
 return o_mul;
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 84 "pascal.lex"
+=======
+#line 83 "pascal.lex"
+>>>>>>> master
 return o_div;
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 85 "pascal.lex"
+=======
+#line 84 "pascal.lex"
+>>>>>>> master
 return o_mod;
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 86 "pascal.lex"
+=======
+#line 85 "pascal.lex"
+>>>>>>> master
 return o_land;
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 87 "pascal.lex"
+=======
+#line 86 "pascal.lex"
+>>>>>>> master
 return cmp_l;
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 88 "pascal.lex"
+=======
+#line 87 "pascal.lex"
+>>>>>>> master
 return cmp_leq;
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 89 "pascal.lex"
+=======
+#line 88 "pascal.lex"
+>>>>>>> master
 return cmp_eq;
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 90 "pascal.lex"
+=======
+#line 89 "pascal.lex"
+>>>>>>> master
 return cmp_neq;
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 91 "pascal.lex"
+=======
+#line 90 "pascal.lex"
+>>>>>>> master
 return cmp_g;
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 92 "pascal.lex"
+=======
+#line 91 "pascal.lex"
+>>>>>>> master
 return cmp_geq;
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 93 "pascal.lex"
+=======
+#line 92 "pascal.lex"
+>>>>>>> master
 {return _BUILTIN_READ;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 94 "pascal.lex"
+=======
+#line 93 "pascal.lex"
+>>>>>>> master
 {return _BUILTIN_WRITE;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 95 "pascal.lex"
+=======
+#line 94 "pascal.lex"
+>>>>>>> master
 return ASSIGN;
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 96 "pascal.lex"
+=======
+#line 95 "pascal.lex"
+>>>>>>> master
 ++line_num ;
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 97 "pascal.lex"
+=======
+#line 96 "pascal.lex"
+>>>>>>> master
 {yylval.string=strdup(yytext) ;return ID ;}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 101 "pascal.lex"
+=======
+#line 100 "pascal.lex"
+>>>>>>> master
 ECHO;
 	YY_BREAK
 #line 1008 "lex.yy.c"
@@ -1892,6 +2007,10 @@ int main()
 	return 0;
 	}
 #endif
+<<<<<<< HEAD
 #line 101 "pascal.lex"
+=======
+#line 100 "pascal.lex"
+>>>>>>> master
 
 
