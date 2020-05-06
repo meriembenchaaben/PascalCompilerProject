@@ -2,7 +2,10 @@
 %{
 #include "semantic.h"
 #include "pascal.tab.h"
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 int yylex();
 void yyerror(const char *s);
 int line_num = 1;

@@ -1,7 +1,11 @@
 %error-verbose
 
 %{
+<<<<<<< HEAD
 //#define YYDEBUG 1
+=======
+#define YYDEBUG 1
+>>>>>>> master
 #include "semantic.h"
 
 #include <stdio.h>
@@ -39,7 +43,11 @@ int currFunctionIndex ;
 %type <listType> arguments declaration declarations_list parameters_list expr_list call_parameters
 %type <queue> identifier_list
 %type <string> type variable
+
 %type <type_> term expr factor simple_expr method_call statement
+
+
+
 %start file
 
 %%
