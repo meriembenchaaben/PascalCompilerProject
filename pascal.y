@@ -1,11 +1,9 @@
 %error-verbose
 
 %{
-<<<<<<< HEAD
+
 //#define YYDEBUG 1
-=======
-#define YYDEBUG 1
->>>>>>> master
+
 #include "semantic.h"
 
 #include <stdio.h>
@@ -46,8 +44,6 @@ int currFunctionIndex ;
 
 %type <type_> term expr factor simple_expr method_call statement
 
-
-
 %start file
 
 %%
@@ -56,13 +52,14 @@ file:
 	program
 	{
 		//printCurrentDict() ;
-
+		verifUsed();
 		if(number_errors)
 		{
-		printf("number of errors = %d\n",number_errors) ;
+		printf("\n\nNUMBER OF ERRORS = %d\n",number_errors) ;
 		return 1 ;
 		}
-		printf( "#program accepted by interpreter\n");
+
+		printf("#program accepted by interpreter\n");
 		return (0) ;
 
 	} ;
@@ -179,7 +176,7 @@ declaration:
 		}
 		//printCurrentDict() ;
 		$$= head ;
-	// todo array bech ne5dmouga ye men 3ach
+
 	}
 	;
 declaration_methods_list :
@@ -268,45 +265,55 @@ statement:
 			if(memeType(nouveau($3),&variable->type))
 			{
 				variable->initialised = 1 ;
-				variable->used = 1 ;
+				//variable->used = 1 ;
 			}
 			else
 			{
 				number_errors++ ;
-				fprintf(stderr,"Type variable incompatible \n");
+				printf("Type variable incompatible \n");
 			}
 
 		}
 		else {
 			number_errors ++ ;
-			fprintf(stderr,"Variable not found \n");
+			printf("Variable not found \n");
 		}
 
 
 	}
 	|
 	compound_statement{
-
 	}
 	|
 	method_call
 	{
-
 	}
 	|
 	IF expr THEN statement
 	{
-
+		if ($2!=tBool)
+		{
+			number_errors ++ ;
+			printf("if condition must be of type boolean\n") ;
+		}
 	}
 	|
 	IF expr THEN statement ELSE statement
 	{
-
+		if ($2!=tBool)
+		{
+			number_errors ++ ;
+			printf("if condition must be of type boolean\n") ;
+		}
 	}
 	|
 	WHILE expr DO statement
 	{
-
+		if ($2!=tBool)
+		{
+			number_errors ++ ;
+			printf("while condition must be of type boolean\n") ;
+		}
 	}
 	|
 	_BUILTIN_READ BRACKET_O identifier_list BRACKET_C
@@ -324,14 +331,10 @@ statement:
 
 	};
 variable:
-	{
-		ENTREE_DICO * variable  = search_variable($1) ;
-		if (variable)
-		{
-			variable->initialised = 1 ;
-		}
-	}
-	ID {$$=$1};
+
+	ID {
+		$$=$1 ;
+	};
 expr_list:
 	expr{
 		listeDescripteursTypes *head = NULL ;
@@ -403,37 +406,45 @@ simple_expr:
 	{
 		if($1==tInt&&$3==tInt)
 			$$ = tInt;
-		if($1==tInt || $3==tInt)
+		else if($1==tInt || $3==tInt)
 			if($1==tDouble||$3==tDouble)
 				$$ = tDouble;
-		if($1==tDouble&&$3==tDouble)
+		else if($1==tDouble&&$3==tDouble)
 			$$= tDouble ;
-		if($1==tString&&$3==tString)
+		else if($1==tString&&$3==tString)
 			$$=tString ;
-		number_errors ++ ;
-		printf("Operator is not overloaded at line : %d\n",line_num) ;
+		else{
+			number_errors ++ ;
+			printf("operator is not overloaded at line : %d\n",line_num) ;
+			$$= tInt ;
+		}
 	}
 	|
 	simple_expr o_minus term
 	{
 		if($1==tInt&&$3==tInt)
 			$$ = tInt;
-		if($1==tInt || $3==tInt)
+		else if($1==tInt || $3==tInt)
 			if($1==tDouble||$3==tDouble)
 				$$ = tDouble;
-		if($1==tDouble&&$3==tDouble)
+		else if($1==tDouble&&$3==tDouble)
 			$$= tDouble ;
-		number_errors ++ ;
-		printf("Operator is not overloaded at line : %d\n",line_num) ;
+		else {
+			number_errors ++ ;
+			printf("operator is not overloaded at line : %d\n",line_num) ;
+			$$= tDouble ;
+		}
 	}
 	|
 	simple_expr o_lor  term
 	{
 		if($1==tBool&&$3==tBool)
 			$$ = tBool;
-		number_errors ++ ;
-		printf("Operator is not overloaded at line : %d\n",line_num) ;
-		$$=$1 ;
+		else {
+			number_errors ++ ;
+			printf("operator is not overloaded at line : %d\n",line_num) ;
+			$$=$1 ;
+		}
 	};
 term:
 	factor
@@ -445,22 +456,27 @@ term:
 	{
 		if($1==tInt&&$3==tInt)
 			$$ = tInt;
-		if($1==tInt || $3==tInt)
+		else if($1==tInt || $3==tInt)
 			if($1==tDouble||$3==tDouble)
 				$$ = tDouble;
-		if($1==tDouble&&$3==tDouble)
+		else if($1==tDouble&&$3==tDouble)
 			$$= tDouble ;
-		number_errors ++ ;
-		printf("Operator is not overloaded at line : %d\n",line_num) ;
+		else {
+			number_errors ++ ;
+			printf("operator is not overloaded at line : %d\n",line_num) ;
+			$$ = tInt ;
+		}
 	}
 	|
 	term o_land factor
 	{
 		if($1==tBool&&$3==tBool)
 			$$ = tBool;
-		number_errors ++ ;
-		printf("Operator is not overloaded at line : %d\n",line_num) ;
-		$$=$1 ;
+		else {
+			number_errors ++ ;
+			printf("operator is not overloaded at line : %d\n",line_num) ;
+			$$=$1 ;
+		}
 
 	}
 	|
@@ -474,7 +490,7 @@ term:
 		if($1!=tInt||$3!=tInt)
 		{
 			number_errors ++ ;
-			printf("Operator is not overloaded at line : %d\n",line_num) ;
+			printf("operator is not overloaded at line : %d\n",line_num) ;
 		}
 		$$=tInt
 	};
@@ -502,12 +518,14 @@ factor:
 			if(!variable->initialised)
 			{
 				number_errors ++ ;
-				fprintf(stderr,"vriable non initialisé\n") ;
+				printf("vriable avec l'identificateur %s non initialisé\n",variable->identif) ;
 			}
 			variable->used = 1 ;
 			$$= variable->type.classe ;
 		}
-		$$= tvoid ;
+		else {
+			$$= tVoid ;
+		}
 		//probablement va causer des probs
 	}
 	|
@@ -524,7 +542,7 @@ factor:
 
 #include <stdlib.h>
 int yyerror(char const *msg) {
-	fprintf(stderr, "Sorry for you , %s %d\n", msg,line_num);
+	printf("%s %d\n", msg,line_num);
 	return 0;
 }
 

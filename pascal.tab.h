@@ -99,11 +99,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-<<<<<<< HEAD
-#line 23 "pascal.y"
-=======
-#line 21 "pascal.y"
->>>>>>> master
+#line 25 "pascal.y"
 
         int number;
         char *string;

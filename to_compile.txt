@@ -1,8 +1,26 @@
-program id ;
-var i:integer ;
-function x(a : integer ;b:double):integer ;
-begin 
-end ;
-begin 
-i :=x(4,4.2)
-end . 
+/* ===========================================================
+  CECI EST UN COMMENTAIRE qui prendra fin a la prochaine
+  accolade fermante
+
+  TP1 - ift2030 - automne 2002
+  ============================================================ */
+
+program tp1Source1 ;
+
+/* ====================================================
+   deux variables globales
+   ==================================================== */
+  
+var x,y: integer;
+
+
+/* ====================================================
+   le bloc principal (l'equivalent du main en C/JAVA)
+   ==================================================== */
+  
+begin
+  x := 3;
+  y := 3*2;
+  write(x,y,45+2) /*mechant programme n'est pas ? */
+end
+.
