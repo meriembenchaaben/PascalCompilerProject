@@ -1,8 +1,11 @@
-program id ;
-var i:integer ;
-function x(a : integer ;b:double):integer ;
-begin 
-end ;
-begin 
-i :=x(4,4.2)
-end . 
+program TP3sematinc ;
+	var x,y,z : integer ;
+procedure p() ;
+	begin
+	end ;
+begin
+	x:=1 ;
+	y:= 2 ;
+	p();
+	writeln(x, y);
+end .

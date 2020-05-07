@@ -1,15 +1,13 @@
 %error-verbose
 
 %{
-<<<<<<< HEAD
+
 //#define YYDEBUG 1
-=======
-#define YYDEBUG 1
->>>>>>> master
+
 #include "semantic.h"
 
 #include <stdio.h>
-#include "semantic2.c"
+#include "semantic.c"
 #include "pascal.tab.h"
 
 int yyerror(char const *msg);
@@ -35,7 +33,7 @@ int currFunctionIndex ;
         typePossible  type_;
 }
 %token  <fnumber>EXP
-%token  <string>STR ID PROCEDURE FUNCTION ARRAY INTEGER DOUBLE STRING
+%token  <string>STR ID PROCEDURE FUNCTION ARRAY INTEGER DOUBLE STRING Boolean
 %token  <number>NUM
 %token <bool>Bool
 %token PROGRAM MC_BEGIN END VAR OF DOTS IF THEN ELSE WHILE DO NOT SEPARATOR_LINE SEPARATOR_LIST SEPARATOR_DEAD TYPIFIER BRACKET_O BRACKET_C SBRACKET_O SBRACKET_C _BUILTIN_READ _BUILTIN_WRITE ASSIGN
@@ -46,8 +44,6 @@ int currFunctionIndex ;
 
 %type <type_> term expr factor simple_expr method_call statement
 
-
-
 %start file
 
 %%
@@ -56,13 +52,14 @@ file:
 	program
 	{
 		//printCurrentDict() ;
-
+		verifUsed();
 		if(number_errors)
 		{
-		printf("number of errors = %d\n",number_errors) ;
+		printf("\n\nNUMBER OF ERRORS = %d\n",number_errors) ;
 		return 1 ;
 		}
-		printf( "#program accepted by interpreter\n");
+
+		printf("#program accepted by interpreter\n");
 		return (0) ;
 
 	} ;
@@ -179,7 +176,7 @@ declaration:
 		}
 		//printCurrentDict() ;
 		$$= head ;
-	// todo array bech ne5dmouga ye men 3ach
+
 	}
 	;
 declaration_methods_list :
@@ -248,6 +245,11 @@ type :
 	DOUBLE
 	{
 		$$ = $1 ;
+	}
+	|
+	Boolean
+	{
+		$$ = $1 ;
 	};
 compound_statement:
 	MC_BEGIN optional_statement END ;
@@ -268,45 +270,53 @@ statement:
 			if(memeType(nouveau($3),&variable->type))
 			{
 				variable->initialised = 1 ;
-				variable->used = 1 ;
+				//variable->used = 1 ;
+			}
+			else if ((variable->type.classe==tDouble) && ($3==tInt))
+			{
+				variable->initialised = 1 ;
+				//variable->used = 1 ;
 			}
 			else
 			{
 				number_errors++ ;
-				fprintf(stderr,"Type variable incompatible \n");
+				printf("Type variable incompatible \n");
 			}
 
 		}
-		else {
-			number_errors ++ ;
-			fprintf(stderr,"Variable not found \n");
-		}
+
 
 
 	}
 	|
 	compound_statement{
-
-	}
-	|
-	method_call
-	{
-
 	}
 	|
 	IF expr THEN statement
 	{
-
+		if ($2!=tBool)
+		{
+			number_errors ++ ;
+			printf("if condition must be of type boolean\n") ;
+		}
 	}
 	|
 	IF expr THEN statement ELSE statement
 	{
-
+		if ($2!=tBool)
+		{
+			number_errors ++ ;
+			printf("if condition must be of type boolean\n") ;
+		}
 	}
 	|
 	WHILE expr DO statement
 	{
-
+		if ($2!=tBool)
+		{
+			number_errors ++ ;
+			printf("while condition must be of type boolean\n") ;
+		}
 	}
 	|
 	_BUILTIN_READ BRACKET_O identifier_list BRACKET_C
@@ -322,16 +332,16 @@ statement:
 	_BUILTIN_WRITE BRACKET_O expr_list BRACKET_C
 	{
 
+	}
+	|
+	method_call
+	{
 	};
 variable:
-	{
-		ENTREE_DICO * variable  = search_variable($1) ;
-		if (variable)
-		{
-			variable->initialised = 1 ;
-		}
-	}
-	ID {$$=$1};
+
+	ID {
+		$$=$1 ;
+	};
 expr_list:
 	expr{
 		listeDescripteursTypes *head = NULL ;
@@ -403,37 +413,45 @@ simple_expr:
 	{
 		if($1==tInt&&$3==tInt)
 			$$ = tInt;
-		if($1==tInt || $3==tInt)
+		else if($1==tInt || $3==tInt)
 			if($1==tDouble||$3==tDouble)
 				$$ = tDouble;
-		if($1==tDouble&&$3==tDouble)
+		else if($1==tDouble&&$3==tDouble)
 			$$= tDouble ;
-		if($1==tString&&$3==tString)
+		else if($1==tString&&$3==tString)
 			$$=tString ;
-		number_errors ++ ;
-		printf("Operator is not overloaded at line : %d\n",line_num) ;
+		else{
+			number_errors ++ ;
+			printf("operator is not overloaded at line : %d\n",line_num) ;
+			$$= tInt ;
+		}
 	}
 	|
 	simple_expr o_minus term
 	{
 		if($1==tInt&&$3==tInt)
 			$$ = tInt;
-		if($1==tInt || $3==tInt)
+		else if($1==tInt || $3==tInt)
 			if($1==tDouble||$3==tDouble)
 				$$ = tDouble;
-		if($1==tDouble&&$3==tDouble)
+		else if($1==tDouble&&$3==tDouble)
 			$$= tDouble ;
-		number_errors ++ ;
-		printf("Operator is not overloaded at line : %d\n",line_num) ;
+		else {
+			number_errors ++ ;
+			printf("operator is not overloaded at line : %d\n",line_num) ;
+			$$= tDouble ;
+		}
 	}
 	|
 	simple_expr o_lor  term
 	{
 		if($1==tBool&&$3==tBool)
 			$$ = tBool;
-		number_errors ++ ;
-		printf("Operator is not overloaded at line : %d\n",line_num) ;
-		$$=$1 ;
+		else {
+			number_errors ++ ;
+			printf("operator is not overloaded at line : %d\n",line_num) ;
+			$$=$1 ;
+		}
 	};
 term:
 	factor
@@ -445,22 +463,27 @@ term:
 	{
 		if($1==tInt&&$3==tInt)
 			$$ = tInt;
-		if($1==tInt || $3==tInt)
+		else if($1==tInt || $3==tInt)
 			if($1==tDouble||$3==tDouble)
 				$$ = tDouble;
-		if($1==tDouble&&$3==tDouble)
+		else if($1==tDouble&&$3==tDouble)
 			$$= tDouble ;
-		number_errors ++ ;
-		printf("Operator is not overloaded at line : %d\n",line_num) ;
+		else {
+			number_errors ++ ;
+			printf("operator is not overloaded at line : %d\n",line_num) ;
+			$$ = tInt ;
+		}
 	}
 	|
 	term o_land factor
 	{
 		if($1==tBool&&$3==tBool)
 			$$ = tBool;
-		number_errors ++ ;
-		printf("Operator is not overloaded at line : %d\n",line_num) ;
-		$$=$1 ;
+		else {
+			number_errors ++ ;
+			printf("operator is not overloaded at line : %d\n",line_num) ;
+			$$=$1 ;
+		}
 
 	}
 	|
@@ -474,7 +497,7 @@ term:
 		if($1!=tInt||$3!=tInt)
 		{
 			number_errors ++ ;
-			printf("Operator is not overloaded at line : %d\n",line_num) ;
+			printf("operator is not overloaded at line : %d\n",line_num) ;
 		}
 		$$=tInt
 	};
@@ -502,12 +525,14 @@ factor:
 			if(!variable->initialised)
 			{
 				number_errors ++ ;
-				fprintf(stderr,"vriable non initialisé\n") ;
+				printf("vriable avec l'identificateur %s non initialisé\n",variable->identif) ;
 			}
 			variable->used = 1 ;
 			$$= variable->type.classe ;
 		}
-		$$= tvoid ;
+		else {
+			$$= tVoid ;
+		}
 		//probablement va causer des probs
 	}
 	|
@@ -524,7 +549,7 @@ factor:
 
 #include <stdlib.h>
 int yyerror(char const *msg) {
-	fprintf(stderr, "Sorry for you , %s %d\n", msg,line_num);
+	printf("%s %d\n", msg,line_num);
 	return 0;
 }
 

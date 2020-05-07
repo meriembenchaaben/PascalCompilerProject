@@ -48,47 +48,48 @@
      INTEGER = 264,
      DOUBLE = 265,
      STRING = 266,
-     NUM = 267,
-     Bool = 268,
-     PROGRAM = 269,
-     MC_BEGIN = 270,
-     END = 271,
-     VAR = 272,
-     OF = 273,
-     DOTS = 274,
-     IF = 275,
-     THEN = 276,
-     ELSE = 277,
-     WHILE = 278,
-     DO = 279,
-     NOT = 280,
-     SEPARATOR_LINE = 281,
-     SEPARATOR_LIST = 282,
-     SEPARATOR_DEAD = 283,
-     TYPIFIER = 284,
-     BRACKET_O = 285,
-     BRACKET_C = 286,
-     SBRACKET_O = 287,
-     SBRACKET_C = 288,
-     _BUILTIN_READ = 289,
-     _BUILTIN_WRITE = 290,
-     ASSIGN = 291,
-     COMMENT = 292,
-     Number = 293,
-     o_plus = 294,
-     o_minus = 295,
-     o_lor = 296,
-     o_mul = 297,
-     o_div = 298,
-     o_mod = 299,
-     o_land = 300,
-     cmp_l = 301,
-     cmp_leq = 302,
-     cmp_eq = 303,
-     cmp_neq = 304,
-     cmp_g = 305,
-     cmp_geq = 306,
-     OPPAFFECT = 307
+     Boolean = 267,
+     NUM = 268,
+     Bool = 269,
+     PROGRAM = 270,
+     MC_BEGIN = 271,
+     END = 272,
+     VAR = 273,
+     OF = 274,
+     DOTS = 275,
+     IF = 276,
+     THEN = 277,
+     ELSE = 278,
+     WHILE = 279,
+     DO = 280,
+     NOT = 281,
+     SEPARATOR_LINE = 282,
+     SEPARATOR_LIST = 283,
+     SEPARATOR_DEAD = 284,
+     TYPIFIER = 285,
+     BRACKET_O = 286,
+     BRACKET_C = 287,
+     SBRACKET_O = 288,
+     SBRACKET_C = 289,
+     _BUILTIN_READ = 290,
+     _BUILTIN_WRITE = 291,
+     ASSIGN = 292,
+     COMMENT = 293,
+     Number = 294,
+     o_plus = 295,
+     o_minus = 296,
+     o_lor = 297,
+     o_mul = 298,
+     o_div = 299,
+     o_mod = 300,
+     o_land = 301,
+     cmp_l = 302,
+     cmp_leq = 303,
+     cmp_eq = 304,
+     cmp_neq = 305,
+     cmp_g = 306,
+     cmp_geq = 307,
+     OPPAFFECT = 308
    };
 #endif
 
@@ -99,11 +100,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-<<<<<<< HEAD
-#line 23 "pascal.y"
-=======
-#line 21 "pascal.y"
->>>>>>> master
+#line 25 "pascal.y"
 
         int number;
         char *string;
@@ -117,7 +114,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 117 "pascal.tab.h"
+#line 118 "pascal.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

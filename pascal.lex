@@ -2,10 +2,6 @@
 %{
 #include "semantic.h"
 #include "pascal.tab.h"
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 int yylex();
 void yyerror(const char *s);
 int line_num = 1;
@@ -68,10 +64,10 @@ COMMENT_LINE       "//".*[\n]
 "while"     		{return WHILE;}
 "do"        		{return DO;}
 "not"       		{return NOT;}
-"True|False"                   {if (!strcmp(yytext,"True")) {yylval.bool=true ;}
+"True"|"False"                   {if (!strcmp(yytext,"True")) {yylval.bool=true ;}
                                 else { yylval.bool= false ;}
                                 return Bool ; }
-
+"boolean"                       {yylval.string="bool" ;return Boolean;}
 ","         {return SEPARATOR_LIST;}
 ";"         {return SEPARATOR_LINE;}
 "."         {return SEPARATOR_DEAD;}
@@ -93,8 +89,8 @@ COMMENT_LINE       "//".*[\n]
 "<>"				return cmp_neq;
 ">" 				return cmp_g;
 ">=" 				return cmp_geq;
-"read"   		   {return _BUILTIN_READ;}
-"write"    		   {return _BUILTIN_WRITE;}
+"read"|"readln"   		   {return _BUILTIN_READ;}
+"write"|"writeln"    		   {return _BUILTIN_WRITE;}
 ":="                                                                            return ASSIGN;
 {COMMENT_LINE}         								     							 ++line_num ;
 {id}                {yylval.string=strdup(yytext) ;return ID ;}

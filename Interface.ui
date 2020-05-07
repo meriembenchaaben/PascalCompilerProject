@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1124</width>
-    <height>671</height>
+    <width>1634</width>
+    <height>839</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QTextEdit" name="ResultsTextEdit">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>430</y>
-     <width>581</width>
-     <height>221</height>
+     <x>170</x>
+     <y>490</y>
+     <width>1111</width>
+     <height>301</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>380</y>
+     <y>470</y>
      <width>181</width>
      <height>41</height>
     </rect>
@@ -45,8 +45,8 @@
   <widget class="QPushButton" name="ParcourirButton">
    <property name="geometry">
     <rect>
-     <x>790</x>
-     <y>30</y>
+     <x>1320</x>
+     <y>90</y>
      <width>211</width>
      <height>51</height>
     </rect>
@@ -61,8 +61,8 @@
   <widget class="QPushButton" name="compilationButton">
    <property name="geometry">
     <rect>
-     <x>820</x>
-     <y>610</y>
+     <x>1330</x>
+     <y>670</y>
      <width>211</width>
      <height>51</height>
     </rect>
@@ -71,7 +71,7 @@
     <string notr="true">font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
-    <string>Compilation</string>
+    <string>Compile</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="source">
@@ -79,7 +79,7 @@
     <rect>
      <x>160</x>
      <y>30</y>
-     <width>581</width>
+     <width>1121</width>
      <height>51</height>
     </rect>
    </property>
@@ -95,8 +95,8 @@
     <rect>
      <x>160</x>
      <y>130</y>
-     <width>581</width>
-     <height>221</height>
+     <width>1121</width>
+     <height>271</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -106,8 +106,8 @@
   <widget class="QRadioButton" name="FileRadioButton">
    <property name="geometry">
     <rect>
-     <x>850</x>
-     <y>120</y>
+     <x>1380</x>
+     <y>180</y>
      <width>211</width>
      <height>41</height>
     </rect>
@@ -126,8 +126,8 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
   <widget class="QRadioButton" name="NoFileRadioButton">
    <property name="geometry">
     <rect>
-     <x>850</x>
-     <y>170</y>
+     <x>1380</x>
+     <y>230</y>
      <width>211</width>
      <height>41</height>
     </rect>
@@ -146,7 +146,7 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
   <widget class="QLabel" name="ResultsLabel_2">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>20</x>
      <y>110</y>
      <width>181</width>
      <height>41</height>

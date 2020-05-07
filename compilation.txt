@@ -1,0 +1,271 @@
+1- Test commentaire : 
+
+/* ===========================================================
+  CECI EST TEST DE COMMENTAIRE
+
+  ============================================================ */
+program TP3sematinc ;
+var x,y: integer;
+begin
+  x := 3;
+  y := 3*2;
+  write(x,y,45+2) /*mechant programme n'est pas ? */
+end .
+
+2- Vérifier la redéfinition des variables déjà déclarées
+
+
+
+a- 2 variables memes types : error
+
+
+program TP3sematinc ;
+	var x,x: integer;
+begin
+end .
+
+b- 2 variables types differents : error
+
+
+program TP3sematinc ;
+	var x: integer;
+	var x: double ;
+begin
+end .
+
+c- variable et procedure : accepted
+
+
+program TP3sematinc ;
+	var x: integer;
+procedure x() ;
+	begin
+	end ;
+begin
+end .
+
+d- 2 procédures/fonctions meme signature  : error
+
+
+program TP3sematinc ;
+procedure x() ;
+	begin
+	end ;
+procedure x() ;
+	begin
+	end ;
+begin
+end .
+
+d- 2 overloading d'une procedure/fonction meme signature : accepted
+
+
+program TP3sematinc ;
+procedure x() ;
+	begin
+	end ;
+procedure x(a : integer) ;
+	begin
+	end ;
+begin
+end .
+
+e- 2 variables meme scope  : error
+
+
+program TP3sematinc ;
+procedure x(a: array [1 .. 10 ] of integer) ;
+	var a: integer;
+	begin
+	end ;
+begin
+end .
+
+f- 2 variables scope different  : accepted
+
+
+program TP3sematinc ;
+	var a: integer;
+function x(a:integer):double ;
+	begin
+	end ;
+begin
+end .
+
+
+3-Vérifier l’appel des procédures avec les bons arguments
+
+
+
+a- sans parametres : accepted
+
+
+program TP3sematinc ;
+	var x: integer;
+procedure p() ;
+	begin
+	end ;
+begin
+	p()
+end .
+
+b- avec parametres et on passe rien  : error
+
+
+program TP3sematinc ;
+	var x: integer;
+procedure p(a : integer) ;
+	begin
+	end ;
+begin
+	p()
+end .
+
+c- sans parametres et on passe un parametre  : error
+
+
+program TP3sematinc ;
+	var x: integer;
+procedure p() ;
+	begin
+	end ;
+begin
+	p(x)
+end .
+
+d- avec parametre et on passe un parametre de type errorné : error
+
+
+program TP3sematinc ;
+	var x: integer;
+procedure p(a: integer) ;
+	begin
+	end ;
+begin
+	p(4.2)
+end .
+
+e- bonne affectation du type de retour : accepted
+
+
+program TP3sematinc ;
+	var x: integer;
+function f(a: integer):integer ;
+	begin
+	end ;
+begin
+	x := f(2)
+end .
+
+f- mauvaise affectation du type de retour : error
+
+
+program TP3sematinc ;
+	var x: integer;
+function f(a: integer):double ;
+	begin
+	end ;
+begin
+	x := f(2)
+end .
+
+g- mauvaise affectation du type de retour mais avec subttle casting int to double: accepted
+
+
+program TP3sematinc ;
+	var x: double;
+function f(a: integer):integer ;
+	begin
+	end ;
+begin
+	x := f(2)
+end .
+
+h- manupulation des booleans : error
+
+
+program TP3sematinc ;
+	var a: boolean;
+begin
+	a := 2.5
+end .
+
+i- manupulation des booleans : accepted
+
+
+program TP3sematinc ;
+	var a: boolean;
+begin
+	a := True ;
+	a := (a and (2 > 3 ))
+end .
+
+j- manupulation des strings : error
+
+program TP3sematinc ;
+begin
+	writeln("string1" + 4 )  ;
+	writeln("string1" *3 )
+end .
+
+k- manupulation des strings : accepted
+
+
+program TP3sematinc ;
+begin
+	writeln("string1" + "string2")
+end .
+
+l- if then et condition de type boolean : accepted
+
+
+program TP3sematinc ;
+begin
+	if True then
+		writeln("accepted")
+end .
+
+m- if then et condition de type boolean : error
+
+
+program TP3sematinc ;
+begin
+	if 5.7 then
+		writeln("error")
+end .
+
+4-Vérifier qu’une variable utilisée est bien déclarée.
+
+
+program TP3sematinc ;
+begin
+	x:= 1
+end .
+
+5-Vérifier que les variables déclarées sont bien initialisées.
+
+
+program TP3sematinc ;
+	var x,y : integer ;
+begin
+	y:= x+ 2 ;
+	writeln(x, y)
+end .
+
+6-Vérifier qu’une variable déclarée est bien utilisée.
+
+
+program TP3sematinc ;
+	var x,y : integer ;
+procedure p() ;
+	begin
+	end ;
+begin
+	x:=1 ;
+	y:= 2 ;
+	p();
+	writeln(x, y)
+end .
+
+
+
