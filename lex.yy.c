@@ -476,7 +476,11 @@ int line_num = 1;
 int comment_caller;
 #include <string.h>
 
+<<<<<<< HEAD
 #line 480 "lex.yy.c"
+=======
+#line 479 "lex.yy.c"
+>>>>>>> master
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -629,7 +633,11 @@ YY_DECL
 
 #line 32 "pascal.lex"
 
+<<<<<<< HEAD
 #line 633 "lex.yy.c"
+=======
+#line 632 "lex.yy.c"
+>>>>>>> master
 
 	if ( yy_init )
 		{
@@ -871,11 +879,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
+<<<<<<< HEAD
 #line 70 "pascal.lex"
 {yylval.string="bool" ;return Boolean;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
+=======
+>>>>>>> master
 #line 71 "pascal.lex"
 {return SEPARATOR_LIST;}
 	YY_BREAK
@@ -1009,7 +1020,11 @@ YY_RULE_SETUP
 #line 100 "pascal.lex"
 ECHO;
 	YY_BREAK
+<<<<<<< HEAD
 #line 1013 "lex.yy.c"
+=======
+#line 1007 "lex.yy.c"
+>>>>>>> master
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(comment):
 case YY_STATE_EOF(foo):
